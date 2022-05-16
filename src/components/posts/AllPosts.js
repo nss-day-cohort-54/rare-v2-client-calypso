@@ -66,7 +66,12 @@ export const AllPosts = () => {
         }
     }, [filter])
 
+    const notifyOnClickDelete = () => {
+        
+    }
+
     const deleteOnClick = (id) => {
+
         deletePost(id).then(data=>setPosts(data))
     }
 
