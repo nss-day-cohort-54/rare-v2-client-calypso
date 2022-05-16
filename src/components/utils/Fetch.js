@@ -12,7 +12,7 @@ export const fetchIt = (url, method = "GET", body = null) => {
         case "POST":
         case "PUT":
             options.headers = {
-                "Authorization": `Token ${localStorage.getItem("lu_token")}`,
+                "Authorization": `Token ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
             }
             break;

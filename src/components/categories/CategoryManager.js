@@ -5,7 +5,7 @@ const API = 'http://localhost:8000'
 export const getAllCategories = () => {
   return fetch(`${API}/categories`,{
     headers: {
-      "Authorization": `Token ${localStorage.getItem("lu_token")}`
+      "Authorization": `Token ${localStorage.getItem("token")}`
     }
   })
     .then((res) => res.json())
