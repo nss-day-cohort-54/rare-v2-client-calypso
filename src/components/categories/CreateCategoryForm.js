@@ -33,7 +33,7 @@ export const NewCategoryForm = ({ getCategories }) => {
                 }
 
         // post the newCategory to the Categories table in the db
-        // return fetch("http://localhost:8088/categories", fetchOption) 
+        // return fetch("http://localhost:8000/categories", fetchOption) 
         
         // example:
         
