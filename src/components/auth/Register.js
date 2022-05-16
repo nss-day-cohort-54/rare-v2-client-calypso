@@ -12,6 +12,7 @@ export const Register = ({setToken}) => {
   const password = useRef()
   const verifyPassword = useRef()
   const passwordDialog = useRef()
+  const profileImage = useRef()
   const history = useHistory()
 
   const handleRegister = (e) => {
@@ -24,11 +25,12 @@ export const Register = ({setToken}) => {
         last_name: lastName.current.value,
         email: email.current.value,
         password: password.current.value,
-        bio: bio.current.value
+        bio: bio.current.value,
+        profile_image_url: profileImage.current.value
       }
 
       registerUser(newUser)
-        .then(res => {
+      .then(res => {
           if ("valid" in res && res.valid) {
             setToken(res.token)
             history.push("/")
@@ -93,6 +95,13 @@ export const Register = ({setToken}) => {
           <label className="label">Bio</label>
           <div className="control">
             <textarea className="textarea" placeholder="Tell us about yourself..." ref={bio}></textarea>
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Profile Image URL</label>
+          <div className="control">
+            <textarea className="textarea" placeholder="Add Image URL" ref={profileImage}></textarea>
           </div>
         </div>
 
