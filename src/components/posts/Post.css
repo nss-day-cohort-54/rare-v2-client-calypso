@@ -1,0 +1,59 @@
+.singlePost {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.singlePost > div {
+    width: 10rem;
+    padding: 1rem;
+    border: 1px black dashed;
+}
+
+.postCard {
+    border: black 1px solid;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+}
+
+.cardTitle, .cardBottom {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cardFunctions {
+    display: flex;
+}
+
+.cardButtons {
+    display: flex;
+}
+
+.cardImage {
+    display: flex;
+    justify-content: center;
+}
+
+.postDetails {
+    display: flex;
+    justify-content: space-between;
+}
+
+.postDetailsTags {
+    border: 1px black solid;
+    padding: 1em;
+}
+
+.postDetailsMain {
+    display: flex;
+    flex-direction: column;
+}
+
+.postDetailsTitle {
+    display: flex;
+    justify-content: space-between;
+}
+
+.postDetailsBelowCard {
+    display: flex;
+}

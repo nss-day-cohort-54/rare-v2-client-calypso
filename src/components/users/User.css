@@ -1,0 +1,10 @@
+.singleUser {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.singleUser > div {
+    width: 10rem;
+    padding: 1rem;
+    border: 1px black dashed;
+}
