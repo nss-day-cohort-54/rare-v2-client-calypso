@@ -5,9 +5,10 @@
 // Component for comment form
 
 import { useState, useEffect } from "react"
+import { useHistory } from "react-router-dom"
 import { Comment } from "./Comment"
 import { CommentForm } from "./CommentForm"
-import { getCommentsByPostId } from "./CommentManager"
+import { deleteComment, getCommentsByPostId } from "./CommentManager"
 
 
 // export component CommentList that is a single post's comments
@@ -18,6 +19,7 @@ export const CommentList = ({ post }) => {
     // declare state variable for comments array
     // const [comments, setComments] = useState([])
     const [comments, setComments] = useState([])
+    const history = useHistory()
     // useEffect that pulls comments by postId
 
 
@@ -53,6 +55,18 @@ export const CommentList = ({ post }) => {
             let currentAuthor = comment.user?.id === parseInt(localStorage.getItem("token"))
             return <div key={`comment--${comment.id}`}>
                     <Comment postId={comment.id} commentObject={comment} currentAuthor={currentAuthor}/>
+                    <button onClick={
+                        () => {
+                            deleteComment(comment.id)
+                            .then(
+                                () => {
+                                    history.push(`/posts/single/${post.id}`)
+                                }
+                            )
+                        }
+                    }>Delete Comment
+
+                    </button>
                 </div>
         })
     }
