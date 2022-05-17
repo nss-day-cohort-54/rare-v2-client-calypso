@@ -78,7 +78,7 @@ export const getPostsByTag = (id) => {
 };
 
 export const searchPostTitles = titleString => {
-  return fetch(`http://localhost:8000/posts?title=${titleString}`, {
+  return fetch(`${Settings.API}/posts?title=${titleString}`, {
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
@@ -87,7 +87,7 @@ export const searchPostTitles = titleString => {
 };
 
 export const searchPostCategories = categoryId => {
-  return fetch(`http://localhost:8000/posts?category=${categoryId}`, {
+  return fetch(`${Settings.API}/posts?category=${categoryId}`, {
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
