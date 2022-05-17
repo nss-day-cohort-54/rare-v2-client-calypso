@@ -11,6 +11,7 @@ import { CreatePosts } from "./posts/CreatePosts.js"
 import { MyPosts } from "./posts/MyPosts.js"
 import { PostsByUser } from "./posts/PostsByUser.js"
 import { SinglePost } from "./posts/SinglePost.js"
+import { EditCategoryForm } from "./categories/EditCategory.js"
 import { UpdateTagForm } from "./tags/UpdateTags.js"
 
 export const ApplicationViews = () => {
@@ -55,6 +56,9 @@ export const ApplicationViews = () => {
       </Route> */}
       <Route exact path="/categories">
         <AllCategories />
+      </Route>
+      <Route exact path="/categories/edit/:catId(\d+)">
+        <EditCategoryForm />
       </Route>
     </>
   )
