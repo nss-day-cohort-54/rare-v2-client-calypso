@@ -8,7 +8,12 @@ export const getCommentsByPostId = (postId) => {
 
 // deleteComment
 export const deleteComment = (commentId) => {
-    return fetchIt(`${Settings.API}/comments/${commentId}`, "DELETE")
+    return fetch(`${Settings.API}/comments/${commentId}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Token ${localStorage.getItem("token")}`
+        }
+    })
 }
 
 // addComment

@@ -10,12 +10,15 @@ export const SinglePost = () => {
 
     useEffect(
         () => {
-            if(postId) {
-                getSinglePost(postId)
-                    .then(setPost)
+            postId ?
+        getSinglePost(postId)
+        .then(
+            (response) => {
+                setPost(response)
             }
-        },
-        [postId]
+        )
+        :""
+        },[postId]
     )
 
     return <>
