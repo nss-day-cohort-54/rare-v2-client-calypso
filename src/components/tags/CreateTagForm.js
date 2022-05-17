@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { fetchIt } from "../utils/Fetch"
 import { Settings } from "../utils/Settings"
-import { getAllTags } from "./TagManager";
+import { createTags, getAllTags } from "./TagManager";
 // define a function that returns the create new tag form
 export const NewTagForm = ({ getTags }) => {
 
@@ -29,7 +29,7 @@ export const NewTagForm = ({ getTags }) => {
         const newTag = {
             label: form.label,
         }
-        return fetchIt(`${Settings.API}/tags`, "POST", JSON.stringify(newTag))
+        return createTags(newTag)
                 .then(getTags)
                 
                 // .then(getAllTags())

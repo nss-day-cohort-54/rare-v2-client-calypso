@@ -5,6 +5,7 @@ export const fetchIt = (url, method = "GET", body = null) => {
     let options = {
         "method": method,
         "headers": {}
+        
     }
     // switch case based on method type
     switch (method) {
