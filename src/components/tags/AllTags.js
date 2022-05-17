@@ -10,7 +10,7 @@ export const AllTags = () => {
     const [tags, setTags] = useState([])
 
     const getTags = () => {
-        return getAllTags()
+        getAllTags()
                 .then((tags => {
                     setTags(tags)
                 }))
@@ -25,7 +25,7 @@ export const AllTags = () => {
     const history = useHistory()
 
     const DeleteTag = (id) => {
-        deleteTag(id).then(getTags())
+        deleteTag(id).then(getTags)
     }
 
 return (
@@ -34,12 +34,12 @@ return (
         <div className="CreateNewTagFormContainer">
             <NewTagForm getTags={getTags} />
         </div>
-        { localStorage.getItem("staff") ? tags.map((tag) => { 
+        {tags.map((tag) => { 
             return <div key={`tag--${tag.id}`}>{tag.label} 
-            <button onClick={() => history.push(`./tags/${tag.id}`)}>edit</button> <button onClick={() => {DeleteTag(tag.id)}}>delete</button>
-            </div>}) 
-            : tags.map((tag) => {
-            return <div key={`tag--${tag.id}`}>{tag.label} 
+            {localStorage.getItem("staff") === true ? <>
+            <button onClick={() => history.push(`./tags/${tag.id}`)}>edit</button> 
+            <button onClick={() => {DeleteTag(tag.id)}}>delete</button>
+            </> : null }
             </div>
         })}
 </>
