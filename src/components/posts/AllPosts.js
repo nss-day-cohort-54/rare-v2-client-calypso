@@ -182,7 +182,7 @@ export const AllPosts = () => {
             </select>
         </fieldset> */}
         {/* filter by tag jsx */}
-        {/* <fieldset>
+        <fieldset>
             <select
                 className="tagDropdown"
                 name="tagId"
@@ -206,7 +206,7 @@ export const AllPosts = () => {
                     );
                 })}
             </select>
-        </fieldset> */}
+        </fieldset>
 
         <div className="singlePost">
             <div>Title</div>
