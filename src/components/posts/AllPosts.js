@@ -1,5 +1,5 @@
 import { getAllPosts, searchPostCategories, searchPostTitles, getPostsByTag } from "./PostManager"
-import { getUserPosts } from "./PostManager"
+import { getUserPosts, deletePost } from "./PostManager"
 import React, { useEffect, useState } from "react";
 import { Post } from "./Post";
 import { getAllUsers } from "../users/UserManager"
@@ -65,6 +65,15 @@ export const AllPosts = () => {
             // run tag filter fetch with value
         }
     }, [filter])
+
+    const notifyOnClickDelete = () => {
+        
+    }
+
+    const deleteOnClick = (id) => {
+
+        deletePost(id).then(data=>setPosts(data))
+    }
 
     // useEffect that updates posts, [searchButton]
     return <>
@@ -186,13 +195,13 @@ export const AllPosts = () => {
                 ? posts.map((post) => {
                     return <div key={post.id} className="posts">
                         <Post listView={true} cardView={false} post={post} />
+                        <button className="post-delete-button" onClick={()=>{deleteOnClick(post.id)}}>Delete</button>
                     </div>
                     // needs author name and category, publication date, content 
                 })
                 : "No posts"
         }
-
-
+        
     </>
 }
 

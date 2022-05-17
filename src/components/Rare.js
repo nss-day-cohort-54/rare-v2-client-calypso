@@ -11,6 +11,7 @@ export const Rare = () => {
 
   const setToken = (newToken, is_staff) => {
     localStorage.setItem('token', newToken)
+    localStorage.setItem('staff', is_staff)
     setTokenState(newToken)
     localStorage.setItem('staff', is_staff)
     setStaffState(is_staff)

@@ -12,6 +12,7 @@ import { MyPosts } from "./posts/MyPosts.js"
 import { PostsByUser } from "./posts/PostsByUser.js"
 import { SinglePost } from "./posts/SinglePost.js"
 import { EditCategoryForm } from "./categories/EditCategory.js"
+import { UpdateTagForm } from "./tags/UpdateTags.js"
 
 export const ApplicationViews = () => {
   return (
@@ -28,8 +29,11 @@ export const ApplicationViews = () => {
       <Route exact path="/users/:userId(\d+)">
         <User listView={false} />
       </Route>
-      <Route path="/tags">
+      <Route exact path="/tags">
         <AllTags />
+      </Route>
+      <Route exact path="/tags/:tagId(\d+)">
+        <UpdateTagForm />
       </Route>
       <Route exact path="/newPost">
         <CreatePosts editing={false} />
