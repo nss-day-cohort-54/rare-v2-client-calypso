@@ -45,10 +45,11 @@ export const AllCategories = () => {
         </div>
             {categories.map((category) => {
                 return <div key={`category--${category.id}`}>{category.label}
+                {localStorage.getItem("staff") === "true" ? <>
                     <button onClick={()=>{
                         history.push(`categories/edit/${category.id}`)
                     }}>edit</button> <button onClick={()=>{onDeleteCatClick(category.id)}}>delete</button>
-                    
+                    </> : ""}    
                 </div>
             
         })}

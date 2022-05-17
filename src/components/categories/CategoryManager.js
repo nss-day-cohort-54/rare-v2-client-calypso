@@ -11,6 +11,15 @@ export const getAllCategories = () => {
     .then((res) => res.json())
 }
 
+export const getCategoryById = (catId) => {
+  return fetch (`${API}/categories/${catId}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  })
+  .then(res => res.json())
+}
+
 export const deleteCategory = (catId) => {
   return fetch (`${API}/categories/${catId}`, {
     method: "DELETE",
