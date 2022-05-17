@@ -27,7 +27,7 @@ export const Post = ({ listView, cardView, post }) => {
                         <div>{post.publicationDate}</div>
                     </div>
                     <div className="cardImage">
-                        <img src={`${post.imageUrl || "https://picsum.photos/300/100"}`} />
+                        <img src={`${post.image_url}`} />
                     </div>
                     <div className="cardBottom">
                         <div>Author: {post.user.firstName} {post.user.lastName}</div>
@@ -73,7 +73,7 @@ export const Post = ({ listView, cardView, post }) => {
                                 <div>{post.title}</div>
                                 <div>{post.category.label}</div>
                             </div>
-                            <div><img src={`${post.imageUrl || "https://picsum.photos/300/100"}`} /></div>
+                            <div><img src={`${post.image_url}`} /></div>
                             <div className="postDetailsBelowCard">
                                 <div>By <Link to={`/users/${post.userId}`} >
                                     {post.user.username}
@@ -88,7 +88,7 @@ export const Post = ({ listView, cardView, post }) => {
                             </div>
                             {
                                 showComments
-                                    ? <CommentList postId={post.id} />
+                                    ? <CommentList post={post} />
                                     : <div>{post.content}</div>
                             }
                         </div>

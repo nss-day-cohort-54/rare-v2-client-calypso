@@ -14,7 +14,7 @@ export const getAllPosts = () => {
 // export function that fetches single post, needs param to take id as arg, then parse from json to js
 
 export const getSinglePost = (id) => {
-  return fetchIt(`${Settings.API}/posts/${id},`, {
+  return fetch(`${Settings.API}/posts/${id}`, {
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
@@ -36,7 +36,12 @@ export const createPost = (post) => {
 // return a fetch with /${postId},
 // method: DELETE
 export const deletePost = (id) => {
-  return fetchIt(`${Settings.API}/posts/${id}`, "DELETE")
+  return fetch(`${Settings.API}/posts/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  })
 }
 
 // export a function that edits a post "post => {"

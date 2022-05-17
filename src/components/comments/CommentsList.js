@@ -14,20 +14,13 @@ import { getCommentsByPostId } from "./CommentManager"
 
 // From Individual Post Component
     // <CommentList postId={id} /> - displayed on a boolean
-export const CommentList = ({ postId }) => {
+export const CommentList = ({ post }) => {
     // declare state variable for comments array
     // const [comments, setComments] = useState([])
     const [comments, setComments] = useState([])
     // useEffect that pulls comments by postId
 
-    useEffect(
-        () => {
-            if(postId) {
-                getComments(postId)
-            }
-        },
-        [postId]
-    )
+
     /* 
         invoke function
         getCommentsByPostId()
@@ -36,10 +29,7 @@ export const CommentList = ({ postId }) => {
         empty dependency array to run on page load
     */
 
-    const getComments = (postId) => {
-        getCommentsByPostId(postId)
-            .then(setComments)
-    }
+    
 
     // any other functions?
     // deleteComment
@@ -53,16 +43,16 @@ export const CommentList = ({ postId }) => {
     return <>
     comments
     {/* <CommentForm postId={postId} /> */}
-    <CommentForm postId={postId} getComments={getComments}/>
+    <CommentForm post={post}/>
     {/* 
         map over comments and invoke comment component
         other needed JSX tags for styling
     */}
     {
-        comments.map(comment => {
-            let currentAuthor = comment.user.id === parseInt(localStorage.getItem("token"))
+        post.comments.map(comment => {
+            let currentAuthor = comment.user?.id === parseInt(localStorage.getItem("token"))
             return <div key={`comment--${comment.id}`}>
-                    <Comment postId={postId} commentObject={comment} currentAuthor={currentAuthor} getComments={getComments} />
+                    <Comment postId={comment.id} commentObject={comment} currentAuthor={currentAuthor}/>
                 </div>
         })
     }
