@@ -7,7 +7,7 @@ import { deleteComment } from "./CommentManager"
 
 
 // export single comment component
-export const Comment = ({ postId, commentObject, currentAuthor, getComments }) => {
+export const Comment = ({ post, commentObject, currentAuthor }) => {
     // currentAuthor should be boolean defined where Comment component is invoked
     // true if the current user is the comment's author
     // in JSX, delete comment button is then displayed
@@ -18,7 +18,7 @@ export const Comment = ({ postId, commentObject, currentAuthor, getComments }) =
     // refresh list
     const removeComment = (commentId) => {
         deleteComment(commentId)
-            .then(() => getComments(postId))
+            .then(() => getComments(post.id))
     }
 
     return <div className="comment" >
@@ -30,15 +30,14 @@ export const Comment = ({ postId, commentObject, currentAuthor, getComments }) =
                 deleteComment displayed if comment author is current user
             */}
         <div>{commentObject.content}</div>
-        <div>{commentObject.user.username}</div>
         {
             currentAuthor
                 ? <div>
                     <ButtonControls
                         isPost={false}
-                        postId={postId}
+                        postId={post.id}
                         commentId={commentObject.id}
-                        getComments={getComments} />
+                       />
                 </div>
                 : null
         }
