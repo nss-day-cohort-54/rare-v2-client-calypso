@@ -14,6 +14,7 @@ export const AllPosts = () => {
     const [tags, setTags] = useState([])
     const [categories, setCategories] = useState([])
     const [filter, setFilterType] = useState({ type: "all", value: "" })
+    const [showAlert, setShowAlert] = useState(true)
 
 
     useEffect(
@@ -65,15 +66,27 @@ export const AllPosts = () => {
             // run tag filter fetch with value
         }
     }, [filter])
+    
+    const deleteOnClick = (id) => {
+        deletePost(id).then(data=>setPosts(data))
+        return(
+            <></>
+        )
+    }
 
     const notifyOnClickDelete = () => {
-        
+        return(
+            <>
+                <div>
+                    <p> Are you sure you wish to delete this post</p>
+                    <button onClick={(evt)=>deleteOnClick(evt.target.id)}>Yes</button>
+                    <button onClick={()=>setShowAlert(false)}>No</button>
+                </div>
+            </>
+        )
     }
 
-    const deleteOnClick = (id) => {
-
-        deletePost(id).then(data=>setPosts(data))
-    }
+    
 
     // useEffect that updates posts, [searchButton]
     return <>
@@ -195,7 +208,7 @@ export const AllPosts = () => {
                 ? posts.map((post) => {
                     return <div key={post.id} className="posts">
                         <Post listView={true} cardView={false} post={post} />
-                        <button className="post-delete-button" onClick={()=>{deleteOnClick(post.id)}}>Delete</button>
+                        <button className="post-delete-button" onClick={()=>setShowAlert(true)}>Delete</button>
                     </div>
                     // needs author name and category, publication date, content 
                 })
