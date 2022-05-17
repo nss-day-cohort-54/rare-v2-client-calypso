@@ -71,6 +71,7 @@
 }
 
 .modal-content {
+    display: flex;
     width: 500px;
     background-color: white;
     justify-content: center;
@@ -79,3 +80,4 @@
     height: 200px;
     border-radius: 1em;
 }
+

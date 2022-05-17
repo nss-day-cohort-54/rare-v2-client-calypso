@@ -14,8 +14,7 @@ export const AllPosts = () => {
     const [tags, setTags] = useState([])
     const [categories, setCategories] = useState([])
     const [filter, setFilterType] = useState({ type: "all", value: "" })
-    const [showAlert, setShowAlert] = useState(false)
-
+    const [showAlert, setShowAlert] = useState(0)
 
     useEffect(
         () => {
@@ -41,8 +40,7 @@ export const AllPosts = () => {
         []
     )
 
-
-    useEffect(() => {
+    const getResources = () => {
         if (filter.type === "all") {
             getAllPosts()
                 .then((posts) => {
@@ -65,26 +63,34 @@ export const AllPosts = () => {
                 .then(setPosts)
             // run tag filter fetch with value
         }
-    }, [filter])
-    
-    const deleteOnClick = (id) => {
-        deletePost(id).then(data=>setPosts(data))
-        return(
-            <>
-                <p>Post Successfully deleted</p>
-            </>
-        )
     }
+    
+    useEffect(() => {
+        getResources()
+    }, [filter])
 
     const notifyOnClickDelete = () => {
         return(
             <>
                 <div className="modal">
                     <div className="modal-content">
-                        <p> Are you sure you wish to delete this post?</p>
-                        <button onClick={(evt)=>{
-                            deleteOnClick(evt.target.id)}}>Yes</button>
-                        <button onClick={()=>setShowAlert(false)}>No</button>
+                        <div className="alert-text">
+                            {
+                                showAlert != -1 ? <p>Are you sure you wish to delete this post?</p>
+                                :
+                                <p>Post Successfully Deleted.</p>
+                            }
+                        </div>
+                        <div className="alert-buttons">
+                            {
+                                showAlert != -1 ? <><button onClick={()=>{
+                                    deletePost(showAlert).then(()=>{setShowAlert(-1)
+                                    getResources()})}}>Yes</button>
+                                <button onClick={()=>setShowAlert(0)}>No</button></>
+                                :
+                                <button onClick={()=>setShowAlert(0)}>Close</button>
+                            }
+                        </div>
                     </div>
                 </div>
             </>
@@ -94,9 +100,9 @@ export const AllPosts = () => {
     // useEffect that updates posts, [searchButton]
     return <> 
         {
-            showAlert ? notifyOnClickDelete() : ""
+            showAlert != 0 ? notifyOnClickDelete() : ""
         }
-        {/* filter by title jsx */}
+        filter by title jsx
         <fieldset id="titleSearchField">
             <div className="titleSearch">
                 <input
@@ -148,7 +154,7 @@ export const AllPosts = () => {
         
         
         {/* filter by user jsx */}
-        <fieldset id="authorDropdown">
+        {/* <fieldset id="authorDropdown">
             <select
                 className="authorDropdown"
                 name="authorId"
@@ -174,9 +180,9 @@ export const AllPosts = () => {
                     );
                 })}
             </select>
-        </fieldset>
+        </fieldset> */}
         {/* filter by tag jsx */}
-        <fieldset>
+        {/* <fieldset>
             <select
                 className="tagDropdown"
                 name="tagId"
@@ -200,7 +206,7 @@ export const AllPosts = () => {
                     );
                 })}
             </select>
-        </fieldset>
+        </fieldset> */}
 
         <div className="singlePost">
             <div>Title</div>
@@ -215,8 +221,8 @@ export const AllPosts = () => {
                     return <div key={post.id} className="posts">
                         <Post listView={true} cardView={false} post={post} />
                         <button className="post-delete-button" onClick={()=>{
-                            setShowAlert(true)
-                            notifyOnClickDelete()}}>Delete</button>
+                            setShowAlert(post.id)
+                            }}>Delete</button>
                     </div>
                     // needs author name and category, publication date, content 
                 })

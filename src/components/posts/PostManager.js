@@ -26,7 +26,7 @@ export const createPost = (post) => {
   return fetchIt(`${Settings.API}/posts`, {
     method: "POST",
     headers: {
-      "Authorization": `Token ${localStorage.getItem("lu_token")}`
+      "Authorization": `Token ${localStorage.getItem("token")}`
     },
     body: JSON.stringify(post)
   })
@@ -36,7 +36,12 @@ export const createPost = (post) => {
 // return a fetch with /${postId},
 // method: DELETE
 export const deletePost = (id) => {
-  return fetchIt(`${Settings.API}/posts/${id}`, "DELETE")
+  return fetch(`${Settings.API}/posts/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  })
 }
 
 // export a function that edits a post "post => {"
