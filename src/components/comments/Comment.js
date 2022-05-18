@@ -12,14 +12,6 @@ export const Comment = ({ post, commentObject, currentAuthor }) => {
     // true if the current user is the comment's author
     // in JSX, delete comment button is then displayed
 
-    // function for deleteComment
-    // takes parameter of comment's id
-    // calls deleteComment from CommentManager
-    // refresh list
-    const removeComment = (commentId) => {
-        deleteComment(commentId)
-            .then(() => getComments(post.id))
-    }
 
     return <div className="comment" >
         {/* 
