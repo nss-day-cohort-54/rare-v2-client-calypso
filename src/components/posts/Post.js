@@ -3,11 +3,13 @@ import { useHistory } from "react-router-dom"
 import { Link } from "react-router-dom"
 import { ButtonControls } from "../buttonControls/ButtonControls"
 import { CommentList } from "../comments/CommentsList"
+import { TagsList } from "../tags/TagsList"
 import "./Post.css"
 // function that renders a single post
 export const Post = ({ listView, cardView, post }) => {
 
     const [showComments, setShowComments] = useState(false)
+    const [showTagBoxes, setShowTagBoxes] = useState(false)
     const history = useHistory()
     const currentUser = parseInt(localStorage.getItem("token"))
 
@@ -34,7 +36,7 @@ export const Post = ({ listView, cardView, post }) => {
                         <div className="cardFunctions">
                             <div>Reaction Count: 0</div>
                             {
-                                post.userId === currentUser
+                                post.user.id === currentUser
                                     ? <div className="cardButtons">
                                         <ButtonControls isPost={true} postId={post.id} />
                                     </div>
@@ -79,6 +81,22 @@ export const Post = ({ listView, cardView, post }) => {
                                     {post.user.username}
                                 </Link>
                                 </div>
+
+                                {/* Create a TagList component and pass post as props. 
+                                IN the TagList, Check to see if the current user is the author, if not return null, 
+                                if so return a list of checkboxes for each tag in the db and a save button that 
+                                creates the new rows in the post-tags table and refreshes the DOM */}
+
+                                {
+                                    post.userId === currentUser
+                                        ? <button onClick={() => { setShowTagBoxes(true) }}>Manage Tags</button>
+                                        : null
+                                }
+                                {
+                                    showTagBoxes
+                                        ? <TagsList post={post} />
+                                        : null
+                                }
                                 {
                                     showComments
                                         ? <button onClick={() => { setShowComments(false) }}>Show Post</button>
@@ -92,7 +110,6 @@ export const Post = ({ listView, cardView, post }) => {
                                     : <div>{post.content}</div>
                             }
                         </div>
-                        <button onClick={() => ""}>Manage Tags</button>
                         <div className="postDetailsTags">{post.tags.map(tag => <div key={`posttag${post.id}${tag.id}`}>{tag.label}</div>)}</div>
                     </div>
         }
