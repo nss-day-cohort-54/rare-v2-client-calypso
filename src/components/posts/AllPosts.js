@@ -59,7 +59,6 @@ export const AllPosts = () => {
                 .then(setPosts)
             // run user filter fetch with value
         } else if (filter.type === "tag") {
-            debugger
             getPostsByTag(filter.value)
                 .then(setPosts)
             // run tag filter fetch with value
