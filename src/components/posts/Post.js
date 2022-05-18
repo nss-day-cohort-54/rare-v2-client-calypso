@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { Link } from "react-router-dom"
 import { ButtonControls } from "../buttonControls/ButtonControls"
 import { CommentList } from "../comments/CommentsList"
@@ -10,6 +11,7 @@ export const Post = ({ listView, cardView, post }) => {
     const [showComments, setShowComments] = useState(false)
     const history = useHistory()
     const currentUser = parseInt(localStorage.getItem("token"))
+    const {userId} = useParams()
 
 
     return <>
