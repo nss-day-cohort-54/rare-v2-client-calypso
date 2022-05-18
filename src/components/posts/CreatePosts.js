@@ -71,16 +71,15 @@ export const CreatePosts = ({ getPosts, editing }) => {
             tagsToAdd = form.tags.map(tag => tag.id)
         }
         const newPost = {
-            userId: parseInt(localStorage.getItem("token")),
-            categoryId: form.categoryId,
+            category: form.categoryId,
             title: form.title,
-            publicationDate: (new Date()).toISOString().split('T')[0],
-            imageUrl: form.imageUrl,
+            publication_date: (new Date()).toISOString().split('T')[0],
+            image_url: form.imageUrl,
             content: form.content,
             approved: 1,
             tags: tagsToAdd
         }
-        if(newPost.title && newPost.imageUrl && newPost.categoryId && newPost.tags.length > 0) {
+        if(newPost.title && newPost.image_url && newPost.category && newPost.tags.length > 0) {
             if (editing) {
                 newPost.id = parseInt(postId)
                 return fetchIt(`${Settings.API}/posts/${postId}`, "PUT", JSON.stringify(newPost))
