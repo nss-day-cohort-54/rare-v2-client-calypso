@@ -32,7 +32,11 @@ export const Post = ({ listView, cardView, post }) => {
                         <img src={`${post.image_url}`} />
                     </div>
                     <div className="cardBottom">
-                        <div>Author: {post.user.firstName} {post.user.lastName}</div>
+                        <div>Author:
+                            <Link to={`/users/${userId}`}>
+                                {post.user.user.first_name} {post.user.user.last_name}
+                            </Link>
+                        </div>
                         <div className="cardFunctions">
                             <div>Reaction Count: 0</div>
                             {
@@ -52,13 +56,17 @@ export const Post = ({ listView, cardView, post }) => {
                                 {post.title}
                             </Link>
                             {
-                                post.userId === currentUser
+                                post.user.id === currentUser
                                     ? <ButtonControls isPost={true} postId={post.id} />
                                     : null
                             }
                         </div>
-                        <div>{post.user.firstName} {post.user.lastName}</div>
-                        <div>{post.publicationDate}</div>
+                        <div>
+                            <Link to={`/users/${post.user.id}`}>
+                                {post.user.user.first_name} {post.user.user.last_name}
+                            </Link>
+                        </div>
+                        <div>{post.publication_date}</div>
                         <div>{post.category.label}</div>
                         <div>{post.tags.map(tag => <div key={`posttag${post.id}${tag.id}`}>{tag.label}</div>)}</div>
                     </div>
@@ -67,7 +75,7 @@ export const Post = ({ listView, cardView, post }) => {
                             <div className="postDetailsTitle">
                                 <div className="cardButtons">
                                     {
-                                        post.userId === currentUser
+                                        post.user.id === currentUser
                                             ? <ButtonControls isPost={true} postId={post.id} />
                                             : null
                                     }
@@ -77,9 +85,16 @@ export const Post = ({ listView, cardView, post }) => {
                             </div>
                             <div><img src={`${post.image_url}`} /></div>
                             <div className="postDetailsBelowCard">
-                                <div>By <Link to={`/users/${post.userId}`} >
-                                    {post.user.username}
+                                <div className="userNameLink">By <Link to={`/users/${post.user.id}`} >
+                                    {post.user.user.username}
                                 </Link>
+                                </div>
+                                <div className="commentButtons">
+                                    {
+                                        showComments
+                                            ? <button onClick={() => { setShowComments(false) }}>Show Post</button>
+                                            : <button onClick={() => setShowComments(true)}>View Comments</button>
+                                    }
                                 </div>
 
                                 {/* Create a TagList component and pass post as props. 
@@ -87,23 +102,18 @@ export const Post = ({ listView, cardView, post }) => {
                                 if so return a list of checkboxes for each tag in the db and a save button that 
                                 creates the new rows in the post-tags table and refreshes the DOM */}
 
-                                {
-                                    post.userId === currentUser
-                                        ? <button onClick={() => { setShowTagBoxes(true) }}>Manage Tags</button>
-                                        : null
-                                }
-                                {
-                                    showTagBoxes
-                                        ? <TagsList post={post} />
-                                        : null
-                                }
-                                {
-                                    showComments
-                                        ? <button onClick={() => { setShowComments(false) }}>Show Post</button>
-                                        : <button onClick={() => setShowComments(true)}>View Comments</button>
-                                }
                                 <div>Reactions</div>
                             </div>
+                            {
+                                // post.user.id === currentUser
+                                    <button onClick={() => { setShowTagBoxes(!showTagBoxes) }}>Manage Tags</button>
+                                    
+                            }
+                            {
+                                showTagBoxes
+                                    ? <TagsList post={post} />
+                                    : <div></div>
+                            }
                             {
                                 showComments
                                     ? <CommentList post={post} />

@@ -24,8 +24,8 @@ export const TagsList = ({ post }) => {
 
         
     useEffect(() => {
-        copy = {...tagChecks}
-        tags.map((tag) => {
+        const copy = {...tagChecks}
+        tags?.map((tag) => {
             if(tag.id in post.tags) {
                 copy.tagId = true
             }
@@ -50,6 +50,9 @@ export const TagsList = ({ post }) => {
         // Create a function that handles the change of a checkbox
             // When there is a change, flip the corresponding boolean in state
 
+        // When the submit button is clicked, Iterate over the tagChecks and check the key value
+            // If true, 
+
         const handleChange = (domEvent) => {
             const copy = { ...tagChecks }
 
@@ -57,29 +60,34 @@ export const TagsList = ({ post }) => {
             setTagChecks(copy)
         }
 
+        const handleSubmit =() => {
+            
+            return ("")
+        }
+
        
         const tagBoxes = () => {
 
-                {for(const tag in tagChecks) {
+                 {for(const tag in tags) {
                     return (
                         <div className="tagCheckBox" key={`tagCheckBox--${tag}`}>
-                            <form autoComplete="off" noValidate className="form" onSubmit={handSubmit}>
+                            <form autoComplete="off" noValidate className="form" onSubmit={handleSubmit}>
 
                                 <input
                                 type="checkbox"
-                                checked={tagChecks[tag]}
+                                checked={tagChecks[tag.id]}
                                 onChange={handleChange}
                                 name="tag"
-                                value={tag}
+                                value={tag.id}
                                 />
                                 <button type="submit">Save</button>
                             </form>
                         </div>
                     )
-                        
-                
-
-        }}
+                }
+            }
+        }
+        
 
     return (
             // Return a checkbox for each tag in the db
@@ -93,7 +101,7 @@ export const TagsList = ({ post }) => {
     )
 
 
-}
+
 }
 
 
