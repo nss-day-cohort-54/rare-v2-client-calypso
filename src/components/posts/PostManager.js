@@ -45,7 +45,12 @@ export const editPost = (id) => {
 
 // get posts by user id
 export const getUserPosts = (id) => {
-  return fetchIt(`${Settings.API}/posts?user_id=${id}`)
+  return fetch(`${Settings.API}/posts?user_id=${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`,
+      "is_user": "true"
+    }
+  })
 };
 
 export const getPostsByTag = (id) => {

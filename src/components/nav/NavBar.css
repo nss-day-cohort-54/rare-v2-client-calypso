@@ -2,7 +2,9 @@
    max-height: 3rem;
 }
 
-.navbar-menu {
-   position: absolute;
-   width: 100%;
+@media all and (max-width: 1024px) {
+   .navbar-menu {
+      position: absolute;
+      width: 100%;
+   }
 }

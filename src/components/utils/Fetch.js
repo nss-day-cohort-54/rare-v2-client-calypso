@@ -4,9 +4,10 @@ export const fetchIt = (url, method = "GET", body = null) => {
     // declare default options object
     let options = {
         "method": method,
-        "headers": {
+        "headers": new Headers({
+            "is_user": "false",
             "Authorization": `Token ${localStorage.getItem("token")}`
-        }
+        })
     }
     // switch case based on method type
     switch (method) {
