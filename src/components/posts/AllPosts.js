@@ -102,7 +102,7 @@ export const AllPosts = () => {
         {
             showAlert != 0 ? notifyOnClickDelete() : ""
         }
-        filter by title jsx
+        {/* filter by title jsx */}
         <fieldset id="titleSearchField">
             <div className="titleSearch">
                 <input
@@ -123,7 +123,6 @@ export const AllPosts = () => {
             </div>
         </fieldset>
         {/* filter by category jsx */}
-
         <fieldset>
             <select
                 className="categoryDropdown"
@@ -150,9 +149,7 @@ export const AllPosts = () => {
                     );
                 })}
             </select>
-        </fieldset>
-        
-        
+        </fieldset>        
         {/* filter by user jsx */}
         {/* <fieldset id="authorDropdown">
             <select

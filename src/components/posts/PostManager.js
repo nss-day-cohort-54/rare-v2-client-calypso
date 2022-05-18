@@ -3,27 +3,17 @@ import { Settings } from "../utils/Settings"
 
 
 export const getAllPosts = () => {
-  return fetch(`${Settings.API}/posts`, {
-    headers: {
-      "Authorization": `Token ${localStorage.getItem("token")}`
-    }
-  })
-    .then((res) => res.json())
+  return fetchIt(`${Settings.API}/posts`)
 }
 
 // export function that fetches single post, needs param to take id as arg, then parse from json to js
 
 export const getSinglePost = (id) => {
-  return fetch(`${Settings.API}/posts/${id}`, {
-    headers: {
-      "Authorization": `Token ${localStorage.getItem("token")}`
-    }
-  })
-    .then(res=>res.json())
+  return fetchIt(`${Settings.API}/posts/${id}`)
 };
 // export function that adds post
 export const createPost = (post) => {
-  return fetchIt(`${Settings.API}/posts`, {
+  return fetch(`${Settings.API}/posts`, {
     method: "POST",
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
@@ -36,12 +26,7 @@ export const createPost = (post) => {
 // return a fetch with /${postId},
 // method: DELETE
 export const deletePost = (id) => {
-  return fetch(`${Settings.API}/posts/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Authorization": `Token ${localStorage.getItem("token")}`
-    }
-  })
+  return fetch(`${Settings.API}/posts/${id}`, "DELETE")
 }
 
 // export a function that edits a post "post => {"
@@ -50,7 +35,7 @@ export const deletePost = (id) => {
 // normal headers
 // body is stringified json with entry passed as arg
 export const editPost = (id) => {
-  return fetchIt(`${Settings.API}/posts/${id}`, {
+  return fetch(`${Settings.API}/posts/${id}`, {
     method: "PUT",
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
@@ -60,37 +45,17 @@ export const editPost = (id) => {
 
 // get posts by user id
 export const getUserPosts = (id) => {
-  return fetchIt(`${Settings.API}/posts?user_id=${id}`, {
-    headers: {
-      "Authorization": `Token ${localStorage.getItem("token")}`
-    }
-  })
-    .then(res=>res.json())
+  return fetchIt(`${Settings.API}/posts?user_id=${id}`)
 };
 
 export const getPostsByTag = (id) => {
-  return fetchIt(`${Settings.API}/posts?tag_id=${id}`, {
-    headers: {
-      "Authorization": `Token ${localStorage.getItem("token")}`
-    }
-  })
-    .then(res=>res.json())
+  return fetchIt(`${Settings.API}/posts?tag_id=${id}`)
 };
 
 export const searchPostTitles = titleString => {
-  return fetch(`${Settings.API}/posts?title=${titleString}`, {
-    headers: {
-      "Authorization": `Token ${localStorage.getItem("token")}`
-    }
-  })
-    .then(res => res.json())
+  return fetchIt(`${Settings.API}/posts?title=${titleString}`)
 };
 
 export const searchPostCategories = categoryId => {
-  return fetch(`${Settings.API}/posts?category=${categoryId}`, {
-    headers: {
-      "Authorization": `Token ${localStorage.getItem("token")}`
-    }
-  })
-    .then(res => res.json())
+  return fetchIt(`${Settings.API}/posts?category=${categoryId}`)
 };
