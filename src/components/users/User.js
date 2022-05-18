@@ -75,23 +75,27 @@ export const User = ({ listView, user }) => {
             : viewUser
                 ? <div>
                     <div>Picture: <img src={`${viewUser.profileImageUrl || "https://m.media-amazon.com/images/I/91xDQaUMubS._AC_SL1500_.jpg"}`} width={300} height={300} /></div>
-                    <div>Name: {viewUser.firstName} {viewUser.lastName}</div>
-                    <div>Username: {viewUser.username}</div>
-                    <div>Email: {viewUser.email}</div>
-                    <div>Creation Date: {viewUser.createdOn}</div>
-                    <div>Profile Type: Author</div>
-                    <div>
-                        <Link to={`/posts/user/${viewUser.id}`}>
-                        See Articles - Count: {postCount}
-                        </Link>
-                    </div>
+                    <div>Name: {viewUser.user.first_name} {viewUser.user.last_name}</div>
+                    <div>Username: {viewUser.user.username}</div>
+                    <div>Email: {viewUser.user.email}</div>
+                    <div>Creation Date: {viewUser.created_on}</div>
+                    {viewUser.user.is_staff === true ? <div>Profile Type: Staff</div> : <div>Profile Type: Author</div>}
                     <div>
                         <SubForm author={viewUser} />
                     </div>
                 </div>
                 : null
         }
-    {/* 
+
+
+    {/* removed this bit... didn't feel useful for now...{
+                    // <div>
+                    //     <Link to={`/posts/user/${viewUser.id}`}>
+                    //     See Articles - Count: {postCount}
+                    //     </Link>
+                    // </div>}
+                
+
         JSX for the individual user
             in list form - just need name and link to individual page
 
