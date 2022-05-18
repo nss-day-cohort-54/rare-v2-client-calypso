@@ -92,6 +92,7 @@ export const Post = ({ listView, cardView, post }) => {
                                     : <div>{post.content}</div>
                             }
                         </div>
+                        <button onClick={() => ""}>Manage Tags</button>
                         <div className="postDetailsTags">{post.tags.map(tag => <div key={`posttag${post.id}${tag.id}`}>{tag.label}</div>)}</div>
                     </div>
         }
