@@ -2,6 +2,7 @@
 // deleteComment from CommentManager.js
 
 import { ButtonControls } from "../buttonControls/ButtonControls"
+import { HumanDate, HumanDateTime } from "../utils/HumanDate"
 import { Settings } from "../utils/Settings"
 import { deleteComment } from "./CommentManager"
 
@@ -22,6 +23,7 @@ export const Comment = ({ post, commentObject, currentAuthor }) => {
                 deleteComment displayed if comment author is current user
             */}
         <div>{commentObject.content}</div>
+        <div>{HumanDateTime(commentObject.created_on)}</div>
         {
             currentAuthor
                 ? <div>

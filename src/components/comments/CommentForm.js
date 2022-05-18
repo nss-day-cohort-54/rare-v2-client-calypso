@@ -17,6 +17,7 @@ export const CommentForm = ({ selectPost, setSelectPost, refresh, setRefresh }) 
         if(newComment.length > 0) {
 
             const copy = {}
+            copy.created_on = Date.now()
             copy.content = newComment
             // gets comment content from state
             // adds postId

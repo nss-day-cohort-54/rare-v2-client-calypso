@@ -57,6 +57,7 @@ export const CommentList = ({ selectPost, setSelectPost, refresh, setRefresh }) 
         selectPost?.comments.map(comment => {
             let currentAuthor = comment.user?.id === parseInt(localStorage.getItem("token"))
             return <div key={`comment--${comment.id}`}>
+                    {console.log(selectPost.comments)}
                     <Comment postId={comment.id} commentObject={comment} currentAuthor={currentAuthor}/>
                     <button onClick={
                         () => {
