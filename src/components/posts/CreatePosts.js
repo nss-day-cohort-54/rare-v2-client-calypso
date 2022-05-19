@@ -1,10 +1,8 @@
 // imports React, useEffect, useSate, useHistory, sendPost, fetchTags
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { fetchIt } from "../utils/Fetch"
-import { Settings } from "../utils/Settings"
 import { getAllTags } from "../tags/TagManager";
-import { getAllPosts, getSinglePost } from "./PostManager";
+import { createPost, editPost, getSinglePost } from "./PostManager";
 import { getAllCategories } from "../categories/CategoryManager";
 import { useParams } from "react-router-dom";
 
@@ -17,27 +15,24 @@ export const CreatePosts = ({ getPosts, editing }) => {
     const { postId } = useParams()
     const history = useHistory()
 
+    const getResources = () => {
+        getAllCategories().then((categories)=>{setCategories(categories)})
+        getAllTags().then((tags) =>{setTags(tags)})
+    }
+    
     useEffect(() => {
-        getAllCategories()
-            .then((categories) => {
-                setCategories(categories)
-            })
-    },
-        [])
-
-    useEffect(() => {
-        getAllTags()
-            .then((tags) => {
-                setTags(tags)
-            })
-    },
-        [])
+        getResources()
+    },[]
+    )
 
     useEffect(
         () => {
             if (editing) {
                 getSinglePost(postId)
-                    .then(updateForm)
+                    .then((data)=>{
+                        data.category = data.category.id
+                        updateForm(data)
+                    })
             }
         }, []
     )
@@ -64,34 +59,47 @@ export const CreatePosts = ({ getPosts, editing }) => {
         updateForm(newPost)
     }
 
-    const submitPost = (e) => {
+    //To determine if post is approved upon submission...
+    //check if person logged in is staff
+        //yes? approved = true 
+        //no? approved = false
+        const approvedOrNo = () => {
+            if(localStorage.getItem('staff') === "true"){
+                return true}
+            else {return false}
+        }
+
+        const submitPost = (e) => {
         e.preventDefault()
         let tagsToAdd = []
         if(form.tags && form.tags.length > 0) {
             tagsToAdd = form.tags.map(tag => tag.id)
         }
+        let approvedYN = approvedOrNo()
         const newPost = {
-            category: form.categoryId,
+            category: form.category,
             title: form.title,
             publication_date: (new Date()).toISOString().split('T')[0],
-            image_url: form.imageUrl,
+            image_url: form.image_url,
             content: form.content,
-            approved: 1,
+            approved: approvedYN,
             tags: tagsToAdd
         }
-        if(newPost.title && newPost.image_url && newPost.category && newPost.tags.length > 0) {
+        
+        if(newPost.title && newPost.image_url && newPost.category) {
             if (editing) {
                 newPost.id = parseInt(postId)
-                return fetchIt(`${Settings.API}/posts/${postId}`, "PUT", JSON.stringify(newPost))
+                editPost(newPost)
                     .then(() => history.push(`/posts/single/${postId}`))
             } else {
-                return fetchIt(`${Settings.API}/posts`, "POST", JSON.stringify(newPost))
+                createPost(newPost)
                     .then((sentPost) => history.push(`/posts/single/${sentPost.id}`))
             }
         } else {
             window.alert("Please finish filling out post form.")
         }
     }
+    
     return (
         <>
             <fieldset>
@@ -121,11 +129,11 @@ export const CreatePosts = ({ getPosts, editing }) => {
                         type="text" id="post"
                         className="form-control"
                         placeholder="Image URL"
-                        value={form.imageUrl}
+                        value={form.image_url}
                         onChange={
                             (e) => {
                                 const copy = { ...form }
-                                copy.imageUrl = e.target.value
+                                copy.image_url = e.target.value
                                 updateForm(copy)
                             }
                         }
@@ -160,7 +168,7 @@ export const CreatePosts = ({ getPosts, editing }) => {
                     <select name="category"
                         onChange={(e) => {
                             const copy = { ...form }
-                            copy.categoryId = parseInt(e.target.value)
+                            copy.category = parseInt(e.target.value)
                             updateForm(copy)
                         }}
                         defaultValue="0" value={form.categoryId}>
@@ -179,42 +187,11 @@ export const CreatePosts = ({ getPosts, editing }) => {
                     </select>
                 </div>
             </fieldset>
-
-
-
-            {tags.map(tag => {
-                // logic to determine whether box should be pre-checked
-                let checked_status = false
-                if ("tags" in form) {
-                    if (form.tags.length > 0) {
-                        let found_tag = form.tags.find(t => t.id === tag.id)
-                        if (found_tag) {
-                            checked_status = true
-                        } else {
-                            checked_status = false
-                        }
-                    } else {
-                        checked_status = false
-                    }
-                }
-                return <div key={`formTags-${tag.id}`} className="checkbox">
-                    <input name="tags"
-                        type="checkbox"
-                        htmlFor="tag"
-                        id={tag.id}
-                        onChange={handleControlledInputChange}
-                        checked={checked_status}
-                    />
-                    <label htmlFor={tag.id}>{tag.label}</label>
-                </div>
-            })
-            }
-
-
             <div className="submitButtonCreateNewPostForm">
                 <button onClick={(e) => {
+
                     submitPost(e)
-                    updateForm({ title: "", imageUrl: "", content: "", categoryId: "0" })
+                    updateForm({ title: "", imageUrl: "", content: "", categoryId: "0"})
                 }} className="submit-button">
                     Submit
                 </button>
