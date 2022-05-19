@@ -1,11 +1,12 @@
 // imports
 // addComment from CommentManager
 import { useState } from "react"
+import { useEffect } from "react"
 import { HumanDateTime } from "../utils/HumanDate"
-import { addComment } from "./CommentManager"
+import { addComment, updateComment } from "./CommentManager"
 
 // export function that handles comment form entry
-export const CommentForm = ({ selectPost, setSelectPost, refresh, setRefresh }) => {
+export const CommentForm = ({ selectPost, setSelectPost, refresh, setRefresh, editForm, setEditForm, editComment, setEditComment, setOpenForm }) => {
     // declare state variable for comment to add
     const [newComment, setComment] = useState("")
         // should have values
@@ -13,14 +14,18 @@ export const CommentForm = ({ selectPost, setSelectPost, refresh, setRefresh }) 
         // author of comment id (current user)
         // content
     
+
+    useEffect(
+        () => {
+            editForm ? setComment(editComment):""
+        },[]
+    )
     // function to handle comment submission
     const submitComment = () => {
         if(newComment.length > 0) {
 
             const copy = {}
             copy.content = newComment
-            // gets comment content from state
-            // adds postId
             copy.post = selectPost.id
             // adds current user id
             // sends to database using function from CommentManager
@@ -28,6 +33,7 @@ export const CommentForm = ({ selectPost, setSelectPost, refresh, setRefresh }) 
             .then(() => setComment(""))
             .then(
                 () => {
+                    setOpenForm(false)
                     setRefresh(!refresh)
                 }
             )
@@ -37,18 +43,43 @@ export const CommentForm = ({ selectPost, setSelectPost, refresh, setRefresh }) 
             window.alert("Please fill out your comment before submitting.")
         }
     }
-    return <>
-        {/* 
-            textarea form input
-            button to submit comment
-        */}
-        <label htmlFor="content">Add a Comment:</label>
+
+
+    const updateEditComment = () => {
+        const copy = {...editComment}
+        copy.content = newComment
+        copy.author = editComment.author.id
+        copy.post = editComment.post.id
+        console.log(copy)
+        updateComment(copy)
+        .then(
+            () => {
+                setRefresh(!refresh)
+                setEditForm(false)
+            }
+        )
+    }
+
+
+    return( 
+        <>
+        
+
+        <label htmlFor="content">{editForm ? "Update Comment":  "Add Comment"}</label>
         <textarea id="content" name="content"
                     onChange={(e) => setComment(e.target.value)}
-                    value={newComment}>
+                    value={newComment.content}>
         </textarea>
+        {
+            editForm ? 
+            <button className="commentSubmit" onClick={(evt) => updateEditComment()}>
+            Update Comment
+        </button>
+        :
         <button className="commentSubmit" onClick={(evt) => submitComment()}>
             Submit Comment
         </button>
+    }
     </>
+    )
 }

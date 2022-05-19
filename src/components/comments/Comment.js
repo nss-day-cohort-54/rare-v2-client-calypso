@@ -25,6 +25,8 @@ export const Comment = ({ post, commentObject, currentAuthor }) => {
         <div>{HumanDateTime(commentObject.created_on)}</div>
         <div>Comment Content: {commentObject.content}</div>
         <div>Written by: {commentObject.author.user.first_name}</div>
+
+        
         {
             currentAuthor
                 ? <div>
