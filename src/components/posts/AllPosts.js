@@ -1,6 +1,7 @@
 import { getAllPosts, searchPostCategories, searchPostTitles, getPostsByTag } from "./PostManager"
 import { getUserPosts, deletePost } from "./PostManager"
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Post } from "./Post";
 import { getAllUsers } from "../users/UserManager"
 import { getAllTags } from "../tags/TagManager";
@@ -8,7 +9,7 @@ import { getAllCategories } from "../categories/CategoryManager";
 
 
 export const AllPosts = () => {
-
+    const history = useHistory()
     const [posts, setPosts] = useState([])
     const [users, setUsers] = useState([])
     const [tags, setTags] = useState([])
@@ -69,39 +70,8 @@ export const AllPosts = () => {
         getResources()
     }, [filter])
 
-    const notifyOnClickDelete = () => {
-        return(
-            <>
-                <div className="modal">
-                    <div className="modal-content">
-                        <div className="alert-text">
-                            {
-                                showAlert != -1 ? <p>Are you sure you wish to delete this post?</p>
-                                :
-                                <p>Post Successfully Deleted.</p>
-                            }
-                        </div>
-                        <div className="alert-buttons">
-                            {
-                                showAlert != -1 ? <><button onClick={()=>{
-                                    deletePost(showAlert).then(()=>{setShowAlert(-1)
-                                    getResources()})}}>Yes</button>
-                                <button onClick={()=>setShowAlert(0)}>No</button></>
-                                :
-                                <button onClick={()=>setShowAlert(0)}>Close</button>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </>
-        )
-    }
-    
     // useEffect that updates posts, [searchButton]
     return <> 
-        {
-            showAlert != 0 ? notifyOnClickDelete() : ""
-        }
         {/* filter by title jsx */}
         <fieldset id="titleSearchField">
             <div className="titleSearch">
@@ -204,7 +174,7 @@ export const AllPosts = () => {
                 })}
             </select>
         </fieldset>
-
+        <button onClick={()=>history.push("/newPost")}>Create Post</button>
         <div className="singlePost">
             <div>Title</div>
             <div>Author</div>
@@ -219,9 +189,6 @@ export const AllPosts = () => {
                         
                     return <div key={post.id} className="posts">
                         <Post listView={true} cardView={false} post={post} />
-                        <button className="post-delete-button" onClick={()=>{
-                            setShowAlert(post.id)
-                            }}>Delete</button>
                     </div>
                     }}
                     // needs author name and category, publication date, content 
