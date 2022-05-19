@@ -17,7 +17,7 @@ export const Post = ({ listView, cardView, post }) => {
 
     useEffect(
         () => {
-            getSinglePost(post.id)
+            getSinglePost(post?.id)
             .then(
                 (response) => {
                     setSelectPost(response)

@@ -22,9 +22,9 @@ export const Comment = ({ post, commentObject, currentAuthor }) => {
                     author
                 deleteComment displayed if comment author is current user
             */}
-        <div>{commentObject.content}</div>
         <div>{HumanDateTime(commentObject.created_on)}</div>
-        <div>{commentObject.author.user__first_name}</div>
+        <div>Comment Content: {commentObject.content}</div>
+        <div>Written by: {commentObject.author.user.first_name}</div>
         {
             currentAuthor
                 ? <div>
