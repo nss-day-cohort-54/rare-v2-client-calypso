@@ -185,9 +185,12 @@ export const AllPosts = () => {
         {
             posts.length > 0
                 ? posts.map((post) => {
+                    {if(post.approved === true){
+                        
                     return <div key={post.id} className="posts">
                         <Post listView={true} cardView={false} post={post} />
                     </div>
+                    }}
                     // needs author name and category, publication date, content 
                 })
                 : "No posts"
