@@ -6,21 +6,21 @@
 
 import { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
+import { getSinglePost } from "../posts/PostManager"
 import { Comment } from "./Comment"
 import { CommentForm } from "./CommentForm"
-import { deleteComment, getCommentsByPostId } from "./CommentManager"
+import { deleteComment } from "./CommentManager"
 
 
 // export component CommentList that is a single post's comments
 
 // From Individual Post Component
     // <CommentList postId={id} /> - displayed on a boolean
-export const CommentList = ({ post }) => {
+export const CommentList = ({ selectPost, setSelectPost, refresh, setRefresh }) => {
     // declare state variable for comments array
     // const [comments, setComments] = useState([])
     const [comments, setComments] = useState([])
-    const history = useHistory()
-    // useEffect that pulls comments by postId
+    
 
 
     /* 
@@ -31,7 +31,7 @@ export const CommentList = ({ post }) => {
         empty dependency array to run on page load
     */
 
-    
+  
 
     // any other functions?
     // deleteComment
@@ -42,25 +42,29 @@ export const CommentList = ({ post }) => {
         // builds proper comment
 
 
+
     return <>
-    comments
+
+   
+    
     {/* <CommentForm postId={postId} /> */}
-    <CommentForm post={post}/>
+    <CommentForm selectPost = {selectPost} setSelectPost={setSelectPost} refresh = {refresh} setRefresh = {setRefresh}/>
     {/* 
         map over comments and invoke comment component
         other needed JSX tags for styling
     */}
     {
-        post.comments.map(comment => {
+        selectPost?.comments.map(comment => {
             let currentAuthor = comment.user?.id === parseInt(localStorage.getItem("token"))
             return <div key={`comment--${comment.id}`}>
+                    {console.log(selectPost.comments)}
                     <Comment postId={comment.id} commentObject={comment} currentAuthor={currentAuthor}/>
                     <button onClick={
                         () => {
                             deleteComment(comment.id)
                             .then(
                                 () => {
-                                    history.push(`/posts/single/${post.id}`)
+                                    setRefresh(!refresh)
                                 }
                             )
                         }

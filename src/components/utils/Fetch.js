@@ -8,6 +8,7 @@ export const fetchIt = (url, method = "GET", body = null) => {
             "Authorization": `Token ${localStorage.getItem("token")}`
         }
     }
+    
     // switch case based on method type
     switch (method) {
         // these need content-type header key
