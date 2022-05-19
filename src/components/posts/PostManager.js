@@ -48,6 +48,10 @@ export const getUserPosts = (id) => {
   return fetchIt(`${Settings.API}/posts?user_id=${id}`)
 };
 
+export const getLoggedInUserPosts = () => {
+  return fetchIt(`${Settings.API}/posts/getPostForLoggedInUser`)
+}
+
 export const getPostsByTag = (id) => {
   return fetchIt(`${Settings.API}/posts?tag_id=${id}`)
 };

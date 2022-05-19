@@ -20,7 +20,43 @@ export const CommentList = ({ selectPost, setSelectPost, refresh, setRefresh }) 
     // declare state variable for comments array
     // const [comments, setComments] = useState([])
     const [comments, setComments] = useState([])
-    
+    const [openForm, setOpenForm] = useState(false)
+    const [editForm, setEditForm] = useState(false)
+    const [editComment, setEditComment] =useState({})
+
+
+    const showButtons = (comment) => {
+        console.log(comment.is_user)
+        return comment.is_user ? 
+        <>
+        
+           <button
+           onClick={
+               () => {
+                   setEditForm(true)
+                   setEditComment(comment)
+                   setOpenForm(false)
+               }
+           }
+           >Edit Comment</button> 
+        <button onClick={
+            () => {
+                deleteComment(comment.id)
+                .then(
+                    () => {
+                        setRefresh(!refresh)
+                    }
+                )
+            }
+        }>Delete Comment
+
+        </button>
+        
+        
+        </>
+     : ""
+
+    }
 
 
     /* 
@@ -48,29 +84,45 @@ export const CommentList = ({ selectPost, setSelectPost, refresh, setRefresh }) 
    
     
     {/* <CommentForm postId={postId} /> */}
-    <CommentForm selectPost = {selectPost} setSelectPost={setSelectPost} refresh = {refresh} setRefresh = {setRefresh}/>
-    {/* 
-        map over comments and invoke comment component
-        other needed JSX tags for styling
-    */}
+    <button onClick={
+        () => {
+            setOpenForm(!openForm)
+            setEditForm(false)
+        }
+    }>New Comment</button>
+    
+    {
+        openForm ? 
+        <>
+        <CommentForm selectPost = {selectPost} setSelectPost={setSelectPost} refresh = {refresh} setRefresh = {setRefresh} editForm = {editForm} setEditForm = {setEditForm} editComment={editComment} setEditComment={setEditComment} setOpenForm={setOpenForm}/>
+        <button
+        onClick={
+            () => {
+                setOpenForm(false)
+            }
+        }
+        
+        >Discard Comment</button>
+        </>
+        :""
+    }
+
+    {
+        editForm ? 
+        <>
+        <CommentForm selectPost = {selectPost} setSelectPost={setSelectPost} refresh = {refresh} setRefresh = {setRefresh} editForm = {editForm} setEditForm = {setEditForm} editComment={editComment} setEditComment={setEditComment} setOpenForm={setOpenForm}/>
+        </>
+        :""
+        
+    }
     {
         selectPost?.comments.map(comment => {
-            let currentAuthor = comment.user?.id === parseInt(localStorage.getItem("token"))
+            
             return <div key={`comment--${comment.id}`}>
-                    {console.log(selectPost.comments)}
-                    <Comment postId={comment.id} commentObject={comment} currentAuthor={currentAuthor}/>
-                    <button onClick={
-                        () => {
-                            deleteComment(comment.id)
-                            .then(
-                                () => {
-                                    setRefresh(!refresh)
-                                }
-                            )
-                        }
-                    }>Delete Comment
-
-                    </button>
+                    
+                    <Comment postId={comment.id} commentObject={comment}/>
+                    {showButtons(comment)}
+                    
                 </div>
         })
     }

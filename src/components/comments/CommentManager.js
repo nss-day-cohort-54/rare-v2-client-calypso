@@ -27,3 +27,14 @@ export const addComment = (newComment) => {
     body:JSON.stringify(newComment)
 }
 )}
+
+export const updateComment = (newComment) => {
+    return fetch(`${Settings.API}/comments/${newComment.id}`, {
+    method: "PUT", 
+    headers: {
+        "Authorization": `Token ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+    },
+    body:JSON.stringify(newComment)
+}
+)}
