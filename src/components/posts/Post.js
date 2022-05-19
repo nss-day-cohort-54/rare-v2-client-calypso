@@ -8,7 +8,7 @@ import { TagsList } from "../tags/TagsList"
 import "./Post.css"
 import { getSinglePost } from "./PostManager"
 // function that renders a single post
-export const Post = ({ listView, cardView, post }) => {
+export const Post = ({ listView, cardView, post, setPost }) => {
 
     const [showComments, setShowComments] = useState(false)
     const [showTagBoxes, setShowTagBoxes] = useState(false)
@@ -16,6 +16,7 @@ export const Post = ({ listView, cardView, post }) => {
     const currentUser = parseInt(localStorage.getItem("token"))
     const [selectPost, setSelectPost] = useState({})
     const [refresh, setRefresh] = useState(false)
+    const [postRefresh, setPostRefresh] = useState(false)
     const {userId} = useParams()
 
 
@@ -28,6 +29,18 @@ export const Post = ({ listView, cardView, post }) => {
                 }
             )
         },[refresh]
+    )
+    useEffect(
+        () => {
+            getSinglePost(post?.id)
+            .then(
+                (response) => {
+                    response.tagIds = response.tags.map((tag) =>
+                tag.id)
+                    setPost(response)
+                }
+            )
+        },[postRefresh]
     )
 
     return <>
@@ -127,7 +140,7 @@ export const Post = ({ listView, cardView, post }) => {
                             }
                             {
                                 showTagBoxes
-                                    ? <TagsList post={post} />
+                                    ? <TagsList post={post} postRefresh = {postRefresh} setPostRefresh = {setPostRefresh} />
                                     : <div></div>
                             }
                             {

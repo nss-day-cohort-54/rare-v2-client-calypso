@@ -9,10 +9,11 @@ import { getAllTags, updatePostTags } from "./TagManager"
 
 
 // export a function that accept post as props and returns a list of list of checkboxes with check values set to the post's tags
-export const TagsList = ({ post }) => {
+export const TagsList = ({ post, postRefresh, setPostRefresh }) => {
     const [tags, setTags] = useState()
     const history = useHistory()
     const [tagChecks, setTagChecks] = useState({})
+    
 
     useEffect(() => {
         getAllTags()
@@ -26,7 +27,7 @@ export const TagsList = ({ post }) => {
     useEffect(() => {
         const copy = { ...tagChecks }
         tags?.map((tag) => {
-            if (post.tagIds.includes(tag.id)) {
+            if (post?.tagIds?.includes(tag.id)) {
                 copy[`${tag.id}`] = true
             }
             else {
@@ -63,9 +64,7 @@ export const TagsList = ({ post }) => {
         setTagChecks(copy)
     }
 
-    const handleSubmit = (event) => {
-
-        event.preventDefault()
+    const handleSubmit = () => {
 
         const newTags = []
         for (const tc in tagChecks)
@@ -74,7 +73,7 @@ export const TagsList = ({ post }) => {
             }
 
         const updatedPost = {
-            category: post.category,
+            category: post.category.id,
             title: post.title,
             publication_date: post.publication_date,
             image_url: post.image_url,
@@ -84,8 +83,10 @@ export const TagsList = ({ post }) => {
             id: post.id
         }
 
-        return (updatePostTags(updatedPost)
-        )
+        updatePostTags(updatedPost)
+            .then(() => 
+                setPostRefresh(!postRefresh)
+            )
     }
 
     // copy post.tagIds to state, update state with handleChange, send 
@@ -114,25 +115,7 @@ export const TagsList = ({ post }) => {
                         })}</fieldset><button onClick={evt => {
                             evt.preventDefault()
 
-                            const newTags = []
-                            for (const tc in tagChecks)
-                                if (tagChecks[tc] === true) {
-                                    newTags.push(tc)
-                                }
-
-                            const updatedPost = {
-                                category: post.category.id,
-                                title: post.title,
-                                publication_date: post.publication_date,
-                                image_url: post.image_url,
-                                content: post.content,
-                                approved: post.approved,
-                                tags: newTags,
-                                id: post.id
-                            }
-
-                            updatePostTags(updatedPost)
-                            .then()
+                            handleSubmit()
 
                         }} className="submit-button">
                         Save

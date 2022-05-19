@@ -26,7 +26,7 @@ export const SinglePost = () => {
     return <>
     {
         post.title
-        ? <Post listView={false} cardView={false} post={post} />
+        ? <Post listView={false} cardView={false} post={post} setPost={setPost} />
         : "loading"
     }
     </>
