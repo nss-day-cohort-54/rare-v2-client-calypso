@@ -12,92 +12,110 @@ export const TagsList = ({ post }) => {
     const [tags, setTags] = useState()
     const history = useHistory()
     const [tagChecks, setTagChecks] = useState({})
-    
+
     useEffect(() => {
         getAllTags()
-                .then((tags => {
-                    setTags(tags)
-                }))
-        
+            .then((tags => {
+                setTags(tags)
+            }))
+            // .then(
+            //     () => {
+            //         const copy = { ...tagChecks }
+            //         tags?.map((tag) => {
+            //             post.tags.forEach((t) => {
+            //                 if (tag.id === t.id) {
+            //                     copy[`${tag.id}`] = true
+            //                 }
+            //                 else {
+            //                     copy[`${tag.id}`] = false
+            //                 }
+            //             })
+            //         })
+            //         setTagChecks(copy)
+            //     }
+            // )
+
     },
         [])// Fetch the tags from teh db
 
-        
-    useEffect(() => {
-        const copy = {...tagChecks}
-        tags?.map((tag) => {
-            if(tag.id in post.tags) {
-                copy.tagId = true
-            }
-            else{
-                copy.tagId = false
-            }
-        })
-        copy.id = false
+
+    // useEffect(() => {
+    //     const copy = { ...tagChecks }
+    //     tags?.map((tag) => {
+    //         post.tags.forEach((t) => {
+    //             if (tag.id === t.id) {
+    //                 copy[`${tag.id}`] = true
+    //             }
+    //             else {
+    //                 copy[`${tag.id}`] = false
+    //             }
+    //         })
+    //     })
+    //     setTagChecks(copy)
+    // }, [tags])
+
+
+
+    // Create an empty object
+    // Save the id of the checkbox and the value of the checkbox
+
+    // create an array in state of booleans set to true or false
+    // Iterate over the tags
+    // Iterate over the post.tags and compare to the current tag in the tags array
+    // If they match, flip the corresponding boolean in state refrencing the index position that matches their id number(?)
+
+    // Create a function that handles the change of a checkbox
+    // When there is a change, flip the corresponding boolean in state
+
+    // When the submit button is clicked, Iterate over the tagChecks and check the key value
+    // If true, 
+
+    const handleChange = (domEvent) => {
+        const copy = { ...tagChecks }
+
+        copy[domEvent.target.value] = !copy[domEvent.target.value]
         setTagChecks(copy)
-    },[tags])
-        
+    }
+
+    const handleSubmit = () => {
+
+        return ("")
+    }
+
+    // copy post.tagIds to state, update state with handleChange, send 
 
 
-        // Create an empty object
-            // Save the id of the checkbox and the value of the checkbox
+    const tagBoxes = () => {
+return(
+        tags?.map((t) => {
+            return (
+                <div className="tagCheckBox" key={`tagCheckBox--${t.id}`}>
+                    <form autoComplete="off" noValidate className="form" onSubmit={handleSubmit}>
 
-        // create an array in state of booleans set to true or false
-            // Iterate over the tags
-                // Iterate over the post.tags and compare to the current tag in the tags array
-                    // If they match, flip the corresponding boolean in state refrencing the index position that matches their id number(?)
+                        <input
+                            type="checkbox"
+                            checked={post.tagIds.includes(t.id)}
+                            onChange={handleChange}
+                            name="tag"
+                            value={t.id}
+                        />
+                        <label>{t.label}</label>
+                    </form>
+                </div>
+            )
+        }))
+    }
 
-        // Create a function that handles the change of a checkbox
-            // When there is a change, flip the corresponding boolean in state
-
-        // When the submit button is clicked, Iterate over the tagChecks and check the key value
-            // If true, 
-
-        const handleChange = (domEvent) => {
-            const copy = { ...tagChecks }
-
-            copy[domEvent.target.value] = !copy[domEvent.target.value]
-            setTagChecks(copy)
-        }
-
-        const handleSubmit =() => {
-            
-            return ("")
-        }
-
-       
-        const tagBoxes = () => {
-
-                 {for(const tag in tags) {
-                    return (
-                        <div className="tagCheckBox" key={`tagCheckBox--${tag}`}>
-                            <form autoComplete="off" noValidate className="form" onSubmit={handleSubmit}>
-
-                                <input
-                                type="checkbox"
-                                checked={tagChecks[tag.id]}
-                                onChange={handleChange}
-                                name="tag"
-                                value={tag.id}
-                                />
-                                <button type="submit">Save</button>
-                            </form>
-                        </div>
-                    )
-                }
-            }
-        }
-        
 
     return (
-            // Return a checkbox for each tag in the db
-            <article className="tags">
-                {tagBoxes()}
-                
+        // Return a checkbox for each tag in the db
+        <article className="tags">
+            {tagBoxes()}
 
-            </article>
 
-        
+        </article>
+
+
     )
 
 

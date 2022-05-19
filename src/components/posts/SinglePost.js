@@ -13,7 +13,9 @@ export const SinglePost = () => {
             postId ?
         getSinglePost(postId)
         .then(
-            (response) => {
+            (response) => { 
+                response.tagIds = response.tags.map((tag) =>
+                tag.id)
                 setPost(response)
             }
         )
