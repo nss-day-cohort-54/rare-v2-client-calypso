@@ -10,6 +10,7 @@ import "./User.css"
 import { getSingleUser } from "./UserManager"
 import { Link } from "react-router-dom"
 import { SubForm } from "./SubForm"
+import { PostsByUser } from "../posts/PostsByUser"
 
 // function that generates JSX for individual user element
 export const User = ({ listView, user }) => {
@@ -82,6 +83,12 @@ export const User = ({ listView, user }) => {
                     {viewUser.user.is_staff === true ? <div>Profile Type: Staff</div> : <div>Profile Type: Author</div>}
                     <div>
                         <SubForm author={viewUser} />
+                    </div>
+                    <div>{viewUser.user.username} Posts</div>
+                    <div className="user-post-list">
+                        <div>
+                            <PostsByUser/>
+                        </div>
                     </div>
                 </div>
                 : null
