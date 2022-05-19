@@ -64,9 +64,19 @@ export const CreatePosts = ({ getPosts, editing }) => {
         updateForm(newPost)
     }
 
+    // const approvedORNo = () => {
+        //check if person logged in is staff
+        // if(localStorage.getItem('staff')=== true){
+        //     return approved: true}
+        // else {return approved: false}
+        //yes? approved = true 
+        //no? approved = false
+    // }
+
     const submitPost = (e) => {
         e.preventDefault()
         let tagsToAdd = []
+        //let approverYN = ApprovedOrNo()
         if(form.tags && form.tags.length > 0) {
             tagsToAdd = form.tags.map(tag => tag.id)
         }
@@ -76,7 +86,7 @@ export const CreatePosts = ({ getPosts, editing }) => {
             publication_date: (new Date()).toISOString().split('T')[0],
             image_url: form.imageUrl,
             content: form.content,
-            approved: 1,
+            approved: 0,
             tags: tagsToAdd
         }
         if(newPost.title && newPost.image_url && newPost.category && newPost.tags.length > 0) {
