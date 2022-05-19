@@ -13,7 +13,7 @@ export const TagsList = ({ post, postRefresh, setPostRefresh }) => {
     const [tags, setTags] = useState()
     const history = useHistory()
     const [tagChecks, setTagChecks] = useState({})
-    
+
 
     useEffect(() => {
         getAllTags()
@@ -84,7 +84,7 @@ export const TagsList = ({ post, postRefresh, setPostRefresh }) => {
         }
 
         updatePostTags(updatedPost)
-            .then(() => 
+            .then(() =>
                 setPostRefresh(!postRefresh)
             )
     }

@@ -7,6 +7,8 @@ import { CommentList } from "../comments/CommentsList"
 import { TagsList } from "../tags/TagsList"
 import "./Post.css"
 import { getSinglePost } from "./PostManager"
+
+
 // function that renders a single post
 export const Post = ({ listView, cardView, post, setPost }) => {
 
@@ -40,6 +42,9 @@ export const Post = ({ listView, cardView, post, setPost }) => {
                     setPost(response)
                 }
             )
+            .then(() => {
+                setShowTagBoxes(!showTagBoxes)
+            })
         },[postRefresh]
     )
 
@@ -125,23 +130,18 @@ export const Post = ({ listView, cardView, post, setPost }) => {
                                             : <button onClick={() => setShowComments(true)}>View Comments</button>
                                     }
                                 </div>
-
-                                {/* Create a TagList component and pass post as props. 
-                                IN the TagList, Check to see if the current user is the author, if not return null, 
-                                if so return a list of checkboxes for each tag in the db and a save button that 
-                                creates the new rows in the post-tags table and refreshes the DOM */}
-
                                 <div>Reactions</div>
                             </div>
                             {
-                                // post.user.id === currentUser
-                                    <button onClick={() => { setShowTagBoxes(!showTagBoxes) }}>Manage Tags</button>
+                                post.user.id === 1
+                                    ? <button onClick={() => { setShowTagBoxes(!showTagBoxes) }}>Manage Tags</button>
+                                    : null
                                     
                             }
                             {
                                 showTagBoxes
                                     ? <TagsList post={post} postRefresh = {postRefresh} setPostRefresh = {setPostRefresh} />
-                                    : <div></div>
+                                    : null
                             }
                             {
                                 showComments
