@@ -20,6 +20,8 @@ export const CommentList = ({ selectPost, setSelectPost, refresh, setRefresh }) 
     // declare state variable for comments array
     // const [comments, setComments] = useState([])
     const [comments, setComments] = useState([])
+
+
     
 
 
@@ -55,7 +57,6 @@ export const CommentList = ({ selectPost, setSelectPost, refresh, setRefresh }) 
     */}
     {
         selectPost?.comments.map(comment => {
-            let currentAuthor = comment.user?.id === parseInt(localStorage.getItem("token"))
             return <div key={`comment--${comment.id}`}>
                     {console.log(selectPost.comments)}
                     <Comment postId={comment.id} commentObject={comment} currentAuthor={currentAuthor}/>
