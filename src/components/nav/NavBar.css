@@ -1,3 +1,10 @@
 .navbar-item img {
    max-height: 3rem;
 }
+
+@media all and (max-width: 1024px) {
+   .navbar-menu {
+      position: absolute;
+      width: 100%;
+   }
+}
