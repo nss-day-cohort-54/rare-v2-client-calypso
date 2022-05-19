@@ -28,14 +28,14 @@ export const User = ({ listView, user }) => {
         }, [userId, listView]
     )
 
-    useEffect(
-        () => {
-            if(viewUser) {
-                let count = viewUser.posts.length
-                setPostCount(count)
-            }
-        }, [viewUser]
-    )
+    // useEffect(
+    //     () => {
+    //         if(viewUser) {
+    //             let count = viewUser.posts.length
+    //             setPostCount(count)
+    //         }
+    //     }, [viewUser]
+    // )
         // define state variables
         // maybe get user's articles for the clickable article count?
         // articles, setArticles = useState()
@@ -65,33 +65,37 @@ export const User = ({ listView, user }) => {
             ? <div className="singleUser">
                 <div>
                     <Link to={`/users/${user.id}`}>
-                    {user.username}
+                    {user.user.username}
                     </Link>
                 </div>
-                <div>{user.firstName}</div>
-                <div>{user.lastName}</div>
-                <div>{user.email}</div>
+                <div>{user.user.first_name}</div>
+                <div>{user.user.last_name}</div>
+                <div>{user.user.email}</div>
             </div> 
             : viewUser
                 ? <div>
                     <div>Picture: <img src={`${viewUser.profileImageUrl || "https://m.media-amazon.com/images/I/91xDQaUMubS._AC_SL1500_.jpg"}`} width={300} height={300} /></div>
-                    <div>Name: {viewUser.firstName} {viewUser.lastName}</div>
-                    <div>Username: {viewUser.username}</div>
-                    <div>Email: {viewUser.email}</div>
-                    <div>Creation Date: {viewUser.createdOn}</div>
-                    <div>Profile Type: Author</div>
-                    <div>
-                        <Link to={`/posts/user/${viewUser.id}`}>
-                        See Articles - Count: {postCount}
-                        </Link>
-                    </div>
+                    <div>Name: {viewUser.user.first_name} {viewUser.user.last_name}</div>
+                    <div>Username: {viewUser.user.username}</div>
+                    <div>Email: {viewUser.user.email}</div>
+                    <div>Creation Date: {viewUser.created_on}</div>
+                    {viewUser.user.is_staff === true ? <div>Profile Type: Staff</div> : <div>Profile Type: Author</div>}
                     <div>
                         <SubForm author={viewUser} />
                     </div>
                 </div>
                 : null
         }
-    {/* 
+
+
+    {/* removed this bit... didn't feel useful for now...{
+                    // <div>
+                    //     <Link to={`/posts/user/${viewUser.id}`}>
+                    //     See Articles - Count: {postCount}
+                    //     </Link>
+                    // </div>}
+                
+
         JSX for the individual user
             in list form - just need name and link to individual page
 
