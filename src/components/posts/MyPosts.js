@@ -8,6 +8,7 @@ export const MyPosts = () => {
 
     useEffect(
         () => {
+            debugger
             getUserPosts(currentUser)
                 .then(setPosts)
         },

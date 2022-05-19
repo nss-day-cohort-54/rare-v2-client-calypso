@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { Link } from "react-router-dom"
 import { ButtonControls } from "../buttonControls/ButtonControls"
 import { CommentList } from "../comments/CommentsList"
@@ -13,6 +14,7 @@ export const Post = ({ listView, cardView, post }) => {
     const currentUser = parseInt(localStorage.getItem("token"))
     const [selectPost, setSelectPost] = useState({})
     const [refresh, setRefresh] = useState(false)
+    const {userId} = useParams()
 
 
     useEffect(
