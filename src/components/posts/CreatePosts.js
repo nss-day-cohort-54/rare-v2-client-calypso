@@ -64,19 +64,30 @@ export const CreatePosts = ({ getPosts, editing }) => {
         updateForm(newPost)
     }
 
-    const submitPost = (e) => {
+    //To determine if post is approved upon submission...
+    //check if person logged in is staff
+        //yes? approved = true 
+        //no? approved = false
+        const approvedOrNo = () => {
+            if(localStorage.getItem('staff') === "true"){
+                return true}
+            else {return false}
+        }
+
+        const submitPost = (e) => {
         e.preventDefault()
         let tagsToAdd = []
         if(form.tags && form.tags.length > 0) {
             tagsToAdd = form.tags.map(tag => tag.id)
         }
+        let approvedYN = approvedOrNo()
         const newPost = {
             category: form.categoryId,
             title: form.title,
             publication_date: (new Date()).toISOString().split('T')[0],
             image_url: form.imageUrl,
             content: form.content,
-            approved: 1,
+            approved: approvedYN,
             tags: tagsToAdd
         }
         if(newPost.title && newPost.image_url && newPost.category && newPost.tags.length > 0) {
@@ -213,8 +224,9 @@ export const CreatePosts = ({ getPosts, editing }) => {
 
             <div className="submitButtonCreateNewPostForm">
                 <button onClick={(e) => {
+
                     submitPost(e)
-                    updateForm({ title: "", imageUrl: "", content: "", categoryId: "0" })
+                    updateForm({ title: "", imageUrl: "", content: "", categoryId: "0"})
                 }} className="submit-button">
                     Submit
                 </button>
