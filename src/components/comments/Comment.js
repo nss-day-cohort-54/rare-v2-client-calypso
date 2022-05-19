@@ -2,6 +2,7 @@
 // deleteComment from CommentManager.js
 
 import { ButtonControls } from "../buttonControls/ButtonControls"
+import { HumanDate, HumanDateTime } from "../utils/HumanDate"
 import { Settings } from "../utils/Settings"
 import { deleteComment } from "./CommentManager"
 
@@ -12,14 +13,6 @@ export const Comment = ({ post, commentObject, currentAuthor }) => {
     // true if the current user is the comment's author
     // in JSX, delete comment button is then displayed
 
-    // function for deleteComment
-    // takes parameter of comment's id
-    // calls deleteComment from CommentManager
-    // refresh list
-    const removeComment = (commentId) => {
-        deleteComment(commentId)
-            .then(() => getComments(post.id))
-    }
 
     return <div className="comment" >
         {/* 
@@ -29,7 +22,9 @@ export const Comment = ({ post, commentObject, currentAuthor }) => {
                     author
                 deleteComment displayed if comment author is current user
             */}
-        <div>{commentObject.content}</div>
+        <div>{HumanDateTime(commentObject.created_on)}</div>
+        <div>Comment Content: {commentObject.content}</div>
+        <div>Written by: {commentObject.author.user.first_name}</div>
         {
             currentAuthor
                 ? <div>
@@ -43,3 +38,4 @@ export const Comment = ({ post, commentObject, currentAuthor }) => {
         }
     </div>
 }
+

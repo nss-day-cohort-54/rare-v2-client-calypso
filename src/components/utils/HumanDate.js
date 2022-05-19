@@ -8,3 +8,15 @@ export const HumanDate = ({ date }) => {
       timeZone: 'America/Chicago'
     })
 }
+
+export const HumanDateTime = (date) => {
+  console.log(date)
+  return new Date(date).toLocaleTimeString("en-US",
+  {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'America/Chicago'
+  })
+}
