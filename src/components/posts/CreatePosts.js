@@ -64,6 +64,7 @@ export const CreatePosts = ({ getPosts, editing }) => {
         updateForm(newPost)
     }
 
+    //To determine if post is approved upon submission...
     //check if person logged in is staff
         //yes? approved = true 
         //no? approved = false
