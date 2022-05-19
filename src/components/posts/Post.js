@@ -5,14 +5,28 @@ import { Link } from "react-router-dom"
 import { ButtonControls } from "../buttonControls/ButtonControls"
 import { CommentList } from "../comments/CommentsList"
 import "./Post.css"
+import { getSinglePost } from "./PostManager"
 // function that renders a single post
 export const Post = ({ listView, cardView, post }) => {
 
     const [showComments, setShowComments] = useState(false)
     const history = useHistory()
     const currentUser = parseInt(localStorage.getItem("token"))
+    const [selectPost, setSelectPost] = useState({})
+    const [refresh, setRefresh] = useState(false)
     const {userId} = useParams()
 
+
+    useEffect(
+        () => {
+            getSinglePost(post?.id)
+            .then(
+                (response) => {
+                    setSelectPost(response)
+                }
+            )
+        },[refresh]
+    )
 
     return <>
         {/* Content needed in all posts list */}
@@ -100,7 +114,7 @@ export const Post = ({ listView, cardView, post }) => {
                             </div>
                             {
                                 showComments
-                                    ? <CommentList post={post} />
+                                    ? <CommentList selectPost={selectPost} setSelectPost = {setSelectPost} refresh = {refresh} setRefresh = {setRefresh} />
                                     : <div>{post.content}</div>
                             }
                         </div>

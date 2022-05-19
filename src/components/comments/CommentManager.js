@@ -18,5 +18,12 @@ export const deleteComment = (commentId) => {
 
 // addComment
 export const addComment = (newComment) => {
-    return fetchIt(`${Settings.API}/comments`, "POST", JSON.stringify(newComment))
+    return fetch(`${Settings.API}/comments`, {
+    method: "POST", 
+    headers: {
+        "Authorization": `Token ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+    },
+    body:JSON.stringify(newComment)
 }
+)}

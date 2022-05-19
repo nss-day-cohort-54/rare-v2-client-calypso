@@ -1,10 +1,11 @@
 // imports
 // addComment from CommentManager
 import { useState } from "react"
+import { HumanDateTime } from "../utils/HumanDate"
 import { addComment } from "./CommentManager"
 
 // export function that handles comment form entry
-export const CommentForm = ({ postId, getComments }) => {
+export const CommentForm = ({ selectPost, setSelectPost, refresh, setRefresh }) => {
     // declare state variable for comment to add
     const [newComment, setComment] = useState("")
         // should have values
@@ -20,13 +21,17 @@ export const CommentForm = ({ postId, getComments }) => {
             copy.content = newComment
             // gets comment content from state
             // adds postId
-            copy.postId = postId
-            copy.authorId = parseInt(localStorage.getItem("token"))
+            copy.post = selectPost.id
             // adds current user id
             // sends to database using function from CommentManager
             addComment(copy)
             .then(() => setComment(""))
-            .then(() => getComments(postId))
+            .then(
+                () => {
+                    setRefresh(!refresh)
+                }
+            )
+            
             // refresh comment list
         } else {
             window.alert("Please fill out your comment before submitting.")
@@ -42,7 +47,7 @@ export const CommentForm = ({ postId, getComments }) => {
                     onChange={(e) => setComment(e.target.value)}
                     value={newComment}>
         </textarea>
-        <button className="commentSubmit" onClick={() => submitComment()}>
+        <button className="commentSubmit" onClick={(evt) => submitComment()}>
             Submit Comment
         </button>
     </>
