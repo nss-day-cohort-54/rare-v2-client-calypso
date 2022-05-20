@@ -1,8 +1,5 @@
 // fetch all the tags
 
-import { searchPostCategories } from "../posts/PostManager"
-import { fetchIt } from "../utils/Fetch"
-
 
 const API = 'http://localhost:8000'
 
@@ -52,14 +49,4 @@ export const updateTags = (updatedTag) => {
     },
     body: JSON.stringify(updatedTag)
   })
-}
-
-export const updatePostTags = (newPost) => {
-  return fetch(`${API}/posts/${newPost.id}/updatePostTags`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Token ${localStorage.getItem("token")}`
-    },
-    body: JSON.stringify(newPost)})
 }
