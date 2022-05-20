@@ -1,17 +1,11 @@
-{/* Create a TagList component and pass post as props. 
-                                IN the TagList, Check to see if the current user is the author, if not null, 
-                                if so return a list of checkboxes for each tag in the db and a save button that 
-                                creates the new rows in the post-tags table and refreshes the DOM */}
-
 import { useState, useEffect } from "react"
-import { useHistory } from "react-router-dom"
-import { getAllTags, updatePostTags } from "./TagManager"
+import { updatePostTags } from "../posts/PostManager"
+import { getAllTags } from "./TagManager"
 
 
 // export a function that accept post as props and returns a list of list of checkboxes with check values set to the post's tags
 export const TagsList = ({ post, postRefresh, setPostRefresh }) => {
     const [tags, setTags] = useState()
-    const history = useHistory()
     const [tagChecks, setTagChecks] = useState({})
 
 
@@ -21,7 +15,7 @@ export const TagsList = ({ post, postRefresh, setPostRefresh }) => {
                 setTags(tags)
             }))
     },
-        [])// Fetch the tags from teh db
+        [])// Fetch the tags from the db
 
 
     useEffect(() => {
@@ -37,25 +31,6 @@ export const TagsList = ({ post, postRefresh, setPostRefresh }) => {
         console.log(copy)
         setTagChecks(copy)
     }, [tags])
-
-    // post.tags.forEach((t) => {
-    //     if (tag.id === t.id) {
-    //         copy[`${tag.id}`] = true
-    //     }
-    //     else {
-    //         copy[`${tag.id}`] = false
-    //     }
-    // })
-
-    // When the submit button is clicked, create a new array of tag id numbers by comparing TagChecks to post.tagIds
-    // Make a new check state
-    // Iterate over old check state
-    // When the value of the current check is true, add it to the new array
-
-    // Construct a new post object
-    // Save the new check state as the new tag property
-
-    // Send the new object to db with a custom put action
 
     const handleChange = (domEvent) => {
         const copy = { ...tagChecks }
@@ -88,9 +63,6 @@ export const TagsList = ({ post, postRefresh, setPostRefresh }) => {
                 setPostRefresh(!postRefresh)
             )
     }
-
-    // copy post.tagIds to state, update state with handleChange, send 
-
 
     const tagBoxes = () => {
         return (
@@ -126,19 +98,9 @@ export const TagsList = ({ post, postRefresh, setPostRefresh }) => {
 
 
     return (
-        // Return a checkbox for each tag in the db
+        // Returns the results of the tagBoxes function
         <article className="tags">
             {tagBoxes()}
-
-
         </article>
-
-
     )
-
-
-
 }
-
-
-// set the default value of the checkboxes according to the incoming tags on the post
