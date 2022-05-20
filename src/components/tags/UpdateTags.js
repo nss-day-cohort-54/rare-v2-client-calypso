@@ -15,7 +15,7 @@ export const UpdateTagForm = () => {
 
     const ChangeTagState = (domEvent) => {
         const copy = {...tag }
-        copy[domEvent.target.name] = domEvent.target.value
+        copy[domEvent.target.name] = parseInt(domEvent.target.value)
         setTag(copy)
     }
     
@@ -23,7 +23,7 @@ export const UpdateTagForm = () => {
         e.preventDefault()
         const newTag = {
             label: tag.label,
-            id: tag.id
+            id: parseInt(tag.id)
         }
         return updateTags(newTag)
                 .then(history.push("/tags"))
