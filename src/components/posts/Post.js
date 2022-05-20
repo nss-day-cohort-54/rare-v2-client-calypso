@@ -6,7 +6,7 @@ import { ButtonControls } from "../buttonControls/ButtonControls"
 import { CommentList } from "../comments/CommentsList"
 import { TagsList } from "../tags/TagsList"
 import "./Post.css"
-import { getSinglePost } from "./PostManager"
+import { getSinglePost, editPost } from "./PostManager"
 import { Settings } from "../utils/Settings"
 
 
@@ -50,6 +50,21 @@ export const Post = ({ listView, cardView, post, setPost }) => {
             })
         }},[postRefresh]
     )
+
+    const ApprovePostClick = (evt) => {
+        evt.preventDefault()
+
+        const editingPostForApproval = {
+            id: parseInt(selectPost.id),
+            category: parseInt(selectPost.category.id),
+            publication_date: selectPost.publication_date,
+            title: selectPost.title,
+            image_url: selectPost.image_url,
+            content: selectPost.content,
+            approved: 1
+        }
+        editPost(editingPostForApproval).then(()=>history.push(`/posts/approve`))
+    }
 
     return <>
         {/* Content needed in all posts list */}
@@ -137,6 +152,11 @@ export const Post = ({ listView, cardView, post, setPost }) => {
                                 ? <button onClick={() => { setShowTagBoxes(!showTagBoxes) }}>Manage Tags</button>
                                 : null
                                 
+                            }
+                            {
+                                post.approved === false && localStorage.getItem('staff')=== "true"
+                                ? <button onClick={ApprovePostClick}>Approve</button>
+                                : null
                             }
                             </div>
                         </div>

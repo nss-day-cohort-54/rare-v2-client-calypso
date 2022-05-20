@@ -49,6 +49,12 @@ export const NavBar = ({ token, setToken }) => {
                   <Link to="/users" className="navbar-item">User Management</Link>
                 </div> : ""
                 }
+                {
+                  localStorage.getItem("staff") === "true" ?
+                <div className="navbar-item">
+                  <Link to="/posts/approve" className="navbar-item">Approve Posts</Link>
+                </div> : ""
+                }
                 <div className="navbar-item">
                   <Link to="/newPost" className="navbar-item">New Post</Link>
                 </div>
