@@ -59,7 +59,7 @@ export const Post = ({ listView, cardView, post, setPost }) => {
             category: parseInt(selectPost.category.id),
             publication_date: selectPost.publication_date,
             title: selectPost.title,
-            image_url: selectPost.image_url,
+            image: selectPost.image,
             content: selectPost.content,
             approved: 1
         }
