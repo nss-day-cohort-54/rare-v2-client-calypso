@@ -92,12 +92,12 @@ export const CreatePosts = ({ getPosts, editing }) => {
         const newPost = {
             category: form.category,
             title: form.title,
-            image_url: form.image_url,
+            image: form.image,
             content: form.content,
             approved: approvedYN,
         }
         
-        if(newPost.title && newPost.image_url && newPost.category) {
+        if(newPost.title && newPost.image && newPost.category) {
             if (editing) {
                 newPost.id = parseInt(postId)
                 editPost(newPost)
