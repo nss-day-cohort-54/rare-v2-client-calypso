@@ -43,19 +43,19 @@ export const CreatePosts = ({ getPosts, editing }) => {
             and change state instead of modifying current one
         */
         const newPost = Object.assign({}, form)
-        if (event.target.name === "tags") {
-            if (!(event.target.name in newPost)) {
-                newPost[event.target.name] = []
-            }
-            let val = parseInt(event.target.id)
-            if (event.target.checked) {
-                newPost[event.target.name].push(tags.find(tag => tag.id === val))
-            } else {
-                newPost[event.target.name] = newPost[event.target.name].filter(tag => tag.id !== val)
-            }
-        } else {
+        // if (event.target.name === "tags") {
+        //     if (!(event.target.name in newPost)) {
+        //         newPost[event.target.name] = []
+        //     }
+        //     let val = parseInt(event.target.id)
+        //     if (event.target.checked) {
+        //         newPost[event.target.name].push(tags.find(tag => tag.id === val))
+        //     } else {
+        //         newPost[event.target.name] = newPost[event.target.name].filter(tag => tag.id !== val)
+        //     }
+        // } else {
             newPost[event.target.name] = event.target.value
-        }
+        // }
         updateForm(newPost)
     }
 
@@ -82,8 +82,7 @@ export const CreatePosts = ({ getPosts, editing }) => {
             publication_date: (new Date()).toISOString().split('T')[0],
             image_url: form.image_url,
             content: form.content,
-            approved: approvedYN,
-            tags: tagsToAdd
+            approved: approvedYN
         }
         
         if(newPost.title && newPost.image_url && newPost.category) {

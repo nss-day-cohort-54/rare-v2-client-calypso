@@ -45,3 +45,16 @@ export const searchPostTitles = titleString => {
 export const searchPostCategories = categoryId => {
   return fetchIt(`${Settings.API}/posts?category=${categoryId}`)
 };
+
+// updates tags on a post
+export const updatePostTags = (newPost) => {
+  return fetch(`${Settings.API}/posts/${newPost.id}/updatePostTags`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    },
+    body: JSON.stringify(newPost)})
+}
+
+// TODO add reactToPost, updatePostReaction, removePostReaction
