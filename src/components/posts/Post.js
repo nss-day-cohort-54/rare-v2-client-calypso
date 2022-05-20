@@ -7,6 +7,8 @@ import { CommentList } from "../comments/CommentsList"
 import { TagsList } from "../tags/TagsList"
 import "./Post.css"
 import { getSinglePost } from "./PostManager"
+import { Settings } from "../utils/Settings"
+
 
 
 // function that renders a single post
@@ -64,7 +66,7 @@ export const Post = ({ listView, cardView, post, setPost }) => {
                         <div>{post.publicationDate}</div>
                     </div>
                     <div className="cardImage">
-                        <img src={`${post.image_url}`} />
+                        <img src={`${Settings.API}${post.image}`} />
                     </div>
                     <div className="cardBottom">
                         <div>Author:
@@ -118,7 +120,7 @@ export const Post = ({ listView, cardView, post, setPost }) => {
                                 <div>{post.title}</div>
                                 <div>{post.category.label}</div>
                             </div>
-                            <div><img src={`${post.image_url}`} /></div>
+                            <div><img src={`${Settings.API}${post.image}`} /></div>
                             <div className="postDetailsBelowCard">
                                 <div className="userNameLink">By <Link to={`/users/${post.user.id}`} >
                                     {post.user.user.username}

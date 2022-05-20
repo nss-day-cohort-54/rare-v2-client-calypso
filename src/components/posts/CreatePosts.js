@@ -1,23 +1,18 @@
-// imports React, useEffect, useSate, useHistory, sendPost, fetchTags
+// imports React, useEffect, useSate, useHistory, sendPost
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { getAllTags } from "../tags/TagManager";
 import { createPost, editPost, getSinglePost } from "./PostManager";
 import { getAllCategories } from "../categories/CategoryManager";
 import { useParams } from "react-router-dom";
 
-
-
-export const CreatePosts = ({ getPosts, editing }) => {
+export const CreatePosts = ({ editing }) => {
     const [form, updateForm] = useState({ label: "" })
     const [categories, setCategories] = useState([])
-    const [tags, setTags] = useState([])
     const { postId } = useParams()
     const history = useHistory()
 
     const getResources = () => {
         getAllCategories().then((categories)=>{setCategories(categories)})
-        getAllTags().then((tags) =>{setTags(tags)})
     }
     
     useEffect(() => {
@@ -43,7 +38,7 @@ export const CreatePosts = ({ getPosts, editing }) => {
         reader.readAsDataURL(file);
     }
     
-    const createGameImageString = (event) => {
+    const createPostImageString = (event) => {
         getBase64(event.target.files[0], (base64ImageString) => {
             console.log("Base64 of file is", base64ImageString);
             // Update a component state variable to the value of base64ImageString
@@ -51,28 +46,6 @@ export const CreatePosts = ({ getPosts, editing }) => {
             copy.image = base64ImageString
             updateForm(copy)
         });
-    }
-
-    const handleControlledInputChange = (event) => {
-        /*
-            When changing a state object or array, always create a new one
-            and change state instead of modifying current one
-        */
-        const newPost = Object.assign({}, form)
-        // if (event.target.name === "tags") {
-        //     if (!(event.target.name in newPost)) {
-        //         newPost[event.target.name] = []
-        //     }
-        //     let val = parseInt(event.target.id)
-        //     if (event.target.checked) {
-        //         newPost[event.target.name].push(tags.find(tag => tag.id === val))
-        //     } else {
-        //         newPost[event.target.name] = newPost[event.target.name].filter(tag => tag.id !== val)
-        //     }
-        // } else {
-            newPost[event.target.name] = event.target.value
-        // }
-        updateForm(newPost)
     }
 
     //To determine if post is approved upon submission...
@@ -134,13 +107,12 @@ export const CreatePosts = ({ getPosts, editing }) => {
             </fieldset>
             <fieldset>
                 <div className="form-group">
-                    <input type="file" id="game_image" onChange={createGameImageString} />
-                    <input type="hidden" name="game_id" value={postId} />
+                    <input type="file" id="post_image" onChange={createPostImageString} />
+                    <input type="hidden" name="post_id" value={postId} />
                 </div>
             </fieldset>
             <fieldset>
                 <div className="form-group">
-
                     <input
                         required
                         type="text" id="post"
@@ -157,9 +129,6 @@ export const CreatePosts = ({ getPosts, editing }) => {
                     />
                 </div>
             </fieldset>
-
-
-
             <fieldset>
                 <div className="form-group">
 
