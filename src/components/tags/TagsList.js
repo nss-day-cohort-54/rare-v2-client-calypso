@@ -51,7 +51,7 @@ export const TagsList = ({ post, postRefresh, setPostRefresh }) => {
             category: post.category.id,
             title: post.title,
             publication_date: post.publication_date,
-            image_url: post.image_url,
+            image: post.image,
             content: post.content,
             approved: post.approved,
             tags: newTags,

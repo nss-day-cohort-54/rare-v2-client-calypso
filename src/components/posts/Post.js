@@ -6,7 +6,9 @@ import { ButtonControls } from "../buttonControls/ButtonControls"
 import { CommentList } from "../comments/CommentsList"
 import { TagsList } from "../tags/TagsList"
 import "./Post.css"
-import { getSinglePost,editPost } from "./PostManager"
+import { getSinglePost, editPost } from "./PostManager"
+import { Settings } from "../utils/Settings"
+
 
 
 // function that renders a single post
@@ -57,7 +59,7 @@ export const Post = ({ listView, cardView, post, setPost }) => {
             category: parseInt(selectPost.category.id),
             publication_date: selectPost.publication_date,
             title: selectPost.title,
-            image_url: selectPost.image_url,
+            image: selectPost.image,
             content: selectPost.content,
             approved: 1
         }
@@ -79,11 +81,11 @@ export const Post = ({ listView, cardView, post, setPost }) => {
                         <div>{post.publicationDate}</div>
                     </div>
                     <div className="cardImage">
-                        <img src={`${post.image_url}`} />
+                        <img src={`${Settings.API}${post.image}`} />
                     </div>
                     <div className="cardBottom">
                         <div>Author:
-                            <Link to={`/users/${userId}`}>
+                            <Link to={`/users/${post.user.id}`}>
                                 {post.user.user.first_name} {post.user.user.last_name}
                             </Link>
                         </div>
@@ -133,7 +135,7 @@ export const Post = ({ listView, cardView, post, setPost }) => {
                                 <div>{post.title}</div>
                                 <div>{post.category.label}</div>
                             </div>
-                            <div><img src={`${post.image_url}`} /></div>
+                            <div><img src={`${Settings.API}${post.image}`} /></div>
                             <div className="postDetailsBelowCard">
                                 <div className="userNameLink">By <Link to={`/users/${post.user.id}`} >
                                     {post.user.user.username}
