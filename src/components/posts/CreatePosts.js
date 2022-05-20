@@ -37,6 +37,22 @@ export const CreatePosts = ({ getPosts, editing }) => {
         }, []
     )
 
+    const getBase64 = (file, callback) => {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(file);
+    }
+    
+    const createGameImageString = (event) => {
+        getBase64(event.target.files[0], (base64ImageString) => {
+            console.log("Base64 of file is", base64ImageString);
+            // Update a component state variable to the value of base64ImageString
+            let copy = {...form}
+            copy.image = base64ImageString
+            updateForm(copy)
+        });
+    }
+
     const handleControlledInputChange = (event) => {
         /*
             When changing a state object or array, always create a new one
@@ -123,21 +139,8 @@ export const CreatePosts = ({ getPosts, editing }) => {
             </fieldset>
             <fieldset>
                 <div className="form-group">
-
-                    <input
-                        required
-                        type="text" id="post"
-                        className="form-control"
-                        placeholder="Image URL"
-                        value={form.image_url}
-                        onChange={
-                            (e) => {
-                                const copy = { ...form }
-                                copy.image_url = e.target.value
-                                updateForm(copy)
-                            }
-                        }
-                    />
+                    <input type="file" id="game_image" onChange={createGameImageString} />
+                    <input type="hidden" name="game_id" value={postId} />
                 </div>
             </fieldset>
             <fieldset>

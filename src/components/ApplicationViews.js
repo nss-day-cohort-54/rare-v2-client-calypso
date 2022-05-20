@@ -50,10 +50,6 @@ export const ApplicationViews = () => {
       <Route exact path="/posts/user/:userId(\d+)">
         <PostsByUser />
       </Route>
-      {/* 
-      <Route exact path="/posts/create">
-        <CreatePost />
-      </Route> */}
       <Route exact path="/categories">
         <AllCategories />
       </Route>
