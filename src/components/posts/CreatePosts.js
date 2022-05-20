@@ -71,15 +71,11 @@ export const CreatePosts = ({ getPosts, editing }) => {
 
         const submitPost = (e) => {
         e.preventDefault()
-        let tagsToAdd = []
-        if(form.tags && form.tags.length > 0) {
-            tagsToAdd = form.tags.map(tag => tag.id)
-        }
+        
         let approvedYN = approvedOrNo()
         const newPost = {
             category: form.category,
             title: form.title,
-            publication_date: (new Date()).toISOString().split('T')[0],
             image_url: form.image_url,
             content: form.content,
             approved: approvedYN
