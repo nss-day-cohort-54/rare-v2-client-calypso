@@ -88,7 +88,6 @@ export const CreatePosts = ({ editing }) => {
         <>
             <fieldset>
                 <div className="form-group">
-
                     <input
                         required
                         type="text" id="post"
