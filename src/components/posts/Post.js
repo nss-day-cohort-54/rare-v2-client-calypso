@@ -34,6 +34,7 @@ export const Post = ({ listView, cardView, post, setPost }) => {
     )
     useEffect(
         () => {
+            if (postRefresh) {
             getSinglePost(post?.id)
             .then(
                 (response) => {
@@ -45,7 +46,7 @@ export const Post = ({ listView, cardView, post, setPost }) => {
             .then(() => {
                 setShowTagBoxes(!showTagBoxes)
             })
-        },[postRefresh]
+        }},[postRefresh]
     )
 
     return <>
@@ -129,15 +130,15 @@ export const Post = ({ listView, cardView, post, setPost }) => {
                                             ? <button onClick={() => { setShowComments(false) }}>Show Post</button>
                                             : <button onClick={() => setShowComments(true)}>View Comments</button>
                                     }
-                                </div>
-                                <div>Reactions</div>
-                            </div>
                             {
-                                post.user.id === 1
-                                    ? <button onClick={() => { setShowTagBoxes(!showTagBoxes) }}>Manage Tags</button>
-                                    : null
-                                    
+                                post.is_user
+                                ? <button onClick={() => { setShowTagBoxes(!showTagBoxes) }}>Manage Tags</button>
+                                : null
+                                
                             }
+                            </div>
+                        </div>
+                            <div>Reactions</div>
                             {
                                 showTagBoxes
                                     ? <TagsList post={post} postRefresh = {postRefresh} setPostRefresh = {setPostRefresh} />
