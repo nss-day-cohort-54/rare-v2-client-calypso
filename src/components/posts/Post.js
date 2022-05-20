@@ -138,7 +138,12 @@ export const Post = ({ listView, cardView, post, setPost }) => {
                             }
                             </div>
                         </div>
-                            <div>Reactions</div>
+                            <div>Reactions
+
+
+{/* Display a list of numbers with button next to them that have the image attached representing particular reactions that users added to this post */}
+
+                            </div>
                             {
                                 showTagBoxes
                                     ? <TagsList post={post} postRefresh = {postRefresh} setPostRefresh = {setPostRefresh} />
