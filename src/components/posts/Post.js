@@ -4,16 +4,21 @@ import { useParams } from "react-router-dom"
 import { Link } from "react-router-dom"
 import { ButtonControls } from "../buttonControls/ButtonControls"
 import { CommentList } from "../comments/CommentsList"
+import { TagsList } from "../tags/TagsList"
 import "./Post.css"
 import { getSinglePost } from "./PostManager"
+
+
 // function that renders a single post
-export const Post = ({ listView, cardView, post }) => {
+export const Post = ({ listView, cardView, post, setPost }) => {
 
     const [showComments, setShowComments] = useState(false)
+    const [showTagBoxes, setShowTagBoxes] = useState(false)
     const history = useHistory()
     const currentUser = parseInt(localStorage.getItem("token"))
     const [selectPost, setSelectPost] = useState({})
     const [refresh, setRefresh] = useState(false)
+    const [postRefresh, setPostRefresh] = useState(false)
     const {userId} = useParams()
 
 
@@ -26,6 +31,22 @@ export const Post = ({ listView, cardView, post }) => {
                 }
             )
         },[refresh]
+    )
+    useEffect(
+        () => {
+            if (postRefresh) {
+            getSinglePost(post?.id)
+            .then(
+                (response) => {
+                    response.tagIds = response.tags.map((tag) =>
+                tag.id)
+                    setPost(response)
+                }
+            )
+            .then(() => {
+                setShowTagBoxes(!showTagBoxes)
+            })
+        }},[postRefresh]
     )
 
     return <>
@@ -46,15 +67,15 @@ export const Post = ({ listView, cardView, post }) => {
                         <img src={`${post.image_url}`} />
                     </div>
                     <div className="cardBottom">
-                        <div>Author: 
-                                <Link to={`/users/${userId}`}>
-                                    {post.user.user.first_name} {post.user.user.last_name}
-                                </Link>
-                            </div>
+                        <div>Author:
+                            <Link to={`/users/${userId}`}>
+                                {post.user.user.first_name} {post.user.user.last_name}
+                            </Link>
+                        </div>
                         <div className="cardFunctions">
                             <div>Reaction Count: 0</div>
                             {
-                                post.userId === currentUser
+                                post.user.id === currentUser
                                     ? <div className="cardButtons">
                                         <ButtonControls isPost={true} postId={post.id} />
                                     </div>
@@ -70,14 +91,14 @@ export const Post = ({ listView, cardView, post }) => {
                                 {post.title}
                             </Link>
                             {
-                                post.userId === currentUser
+                                post.user.id === currentUser
                                     ? <ButtonControls isPost={true} postId={post.id} />
                                     : null
                             }
                         </div>
                         <div>
                             <Link to={`/users/${post.user.id}`}>
-                            {post.user.user.first_name} {post.user.user.last_name}
+                                {post.user.user.first_name} {post.user.user.last_name}
                             </Link>
                         </div>
                         <div>{post.publication_date}</div>
@@ -89,7 +110,7 @@ export const Post = ({ listView, cardView, post }) => {
                             <div className="postDetailsTitle">
                                 <div className="cardButtons">
                                     {
-                                        post.userId === currentUser
+                                        post.user.id === currentUser
                                             ? <ButtonControls isPost={true} postId={post.id} />
                                             : null
                                     }
@@ -101,7 +122,7 @@ export const Post = ({ listView, cardView, post }) => {
                             <div className="postDetailsBelowCard">
                                 <div className="userNameLink">By <Link to={`/users/${post.user.id}`} >
                                     {post.user.user.username}
-                                    </Link>
+                                </Link>
                                 </div>
                                 <div className="commentButtons">
                                     {
@@ -109,9 +130,20 @@ export const Post = ({ listView, cardView, post }) => {
                                             ? <button onClick={() => { setShowComments(false) }}>Show Post</button>
                                             : <button onClick={() => setShowComments(true)}>View Comments</button>
                                     }
-                                </div>
-                                <div>Reactions</div>
+                            {
+                                post.is_user
+                                ? <button onClick={() => { setShowTagBoxes(!showTagBoxes) }}>Manage Tags</button>
+                                : null
+                                
+                            }
                             </div>
+                        </div>
+                            <div>Reactions</div>
+                            {
+                                showTagBoxes
+                                    ? <TagsList post={post} postRefresh = {postRefresh} setPostRefresh = {setPostRefresh} />
+                                    : null
+                            }
                             {
                                 showComments
                                     ? <CommentList selectPost={selectPost} setSelectPost = {setSelectPost} refresh = {refresh} setRefresh = {setRefresh} />
