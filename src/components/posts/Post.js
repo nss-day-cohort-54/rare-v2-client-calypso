@@ -152,7 +152,7 @@ export const Post = ({ listView, cardView, post, setPost }) => {
                                 
                             }
                             {
-                                post.approved === false 
+                                post.approved === false && localStorage.getItem('staff')=== true
                                 ? <button onClick={ApprovePostClick}>Approve</button>
                                 : null
                             }
