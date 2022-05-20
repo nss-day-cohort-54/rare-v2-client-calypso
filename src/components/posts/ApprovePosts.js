@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import { Post } from "./Post";
 import { getAllUsers } from "../users/UserManager"
 import { getAllTags } from "../tags/TagManager";
 import { getAllCategories } from "../categories/CategoryManager";
-import { getAllPosts, getSinglePost } from "./PostManager";
+import { editPost, getAllPosts, getSinglePost } from "./PostManager";
 
 
 export const ApprovePosts = () => {
@@ -13,6 +14,7 @@ export const ApprovePosts = () => {
     const [tags, setTags] = useState([])
     const [categories, setCategories] = useState([])
     const [selectPost, setSelectPost] = useState({})
+    const {postId} = useParams()
 
     useEffect(
         () => {
@@ -48,20 +50,31 @@ export const ApprovePosts = () => {
 
     useEffect(
         () => {
-            getSinglePost(id)
+            getSinglePost(postId)
             .then(
-                (response) => {
-                    setSelectPost(response)
+                (data) => {
+                    setSelectPost(data)
                 }
             )
-        },[]
+        },[postId]
     )
 
-    //function to approve post
+    //function to approve post is essentially an edit post 
     //get the post by id
     //change approved from false to true
-    const ApprovePostClick = (postId) => {
+    //editPost
+    const ApprovePostClick = (evt) => {
+        evt.preventDefault()
 
+        const editingPostForApproval = {
+            id: selectPost.id,
+            category: selectPost.category,
+            title: selectPost.title,
+            image_url: selectPost.image_url,
+            content: selectPost.content,
+            approved: 1
+        }
+        editPost(editingPostForApproval).then(()=>history.push(`/posts/approve`))
     }
 
     return(
@@ -80,7 +93,7 @@ export const ApprovePosts = () => {
                         
                     return <div key={post.id} className="posts">
                         <Post listView={true} cardView={false} post={post} />
-                        <button className="post-approve-button" >Approve</button>
+                        <button className="post-approve-button" onClick={ApprovePostClick}>Approve</button>
                     </div>
                     }}
                     // needs author name and category, publication date, content 
