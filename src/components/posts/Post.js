@@ -85,7 +85,7 @@ export const Post = ({ listView, cardView, post, setPost }) => {
                     </div>
                     <div className="cardBottom">
                         <div>Author:
-                            <Link to={`/users/${userId}`}>
+                            <Link to={`/users/${post.user.id}`}>
                                 {post.user.user.first_name} {post.user.user.last_name}
                             </Link>
                         </div>

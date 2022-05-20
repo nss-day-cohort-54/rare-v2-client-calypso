@@ -15,7 +15,7 @@ export const UpdateTagForm = () => {
 
     const ChangeTagState = (domEvent) => {
         const copy = {...tag }
-        copy[domEvent.target.name] = parseInt(domEvent.target.value)
+        copy[domEvent.target.name] = domEvent.target.value
         setTag(copy)
     }
     
