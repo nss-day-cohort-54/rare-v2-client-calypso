@@ -13,6 +13,7 @@ import { PostsByUser } from "./posts/PostsByUser.js"
 import { SinglePost } from "./posts/SinglePost.js"
 import { EditCategoryForm } from "./categories/EditCategory.js"
 import { UpdateTagForm } from "./tags/UpdateTags.js"
+import { ApprovePosts } from "./posts/ApprovePosts.js"
 
 export const ApplicationViews = () => {
   return (
@@ -46,6 +47,9 @@ export const ApplicationViews = () => {
       </Route>
       <Route exact path="/posts/myPosts">
         <MyPosts />
+      </Route>
+      <Route exact path="/posts/approve">
+        <ApprovePosts />
       </Route>
       <Route exact path="/posts/user/:userId(\d+)">
         <PostsByUser />
